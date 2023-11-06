@@ -22,8 +22,8 @@ const COLOR_PALETTE_UUID_LAST_USED		:= "color_palette_uuid_last_used"
 # -------------------------------------------------------------------------------------------------
 var _config_file := ConfigFile.new()
 var _i18n := I18nParser.new()
-var locales: PoolStringArray
-var language_names: PoolStringArray
+var locales: PackedStringArray
+var language_names: PackedStringArray
 
 # -------------------------------------------------------------------------------------------------
 func _ready():
@@ -83,7 +83,7 @@ func _setup_default_shortcuts() -> void:
 				old_actions.append(action_name)
 
 		for new_action in new_actions:
-			var event_list := InputMap.get_action_list(new_action)
+			var event_list := InputMap.action_get_events(new_action)
 			for event in event_list:
 				for old_action in old_actions:
 					if InputMap.action_has_event(old_action, event):
@@ -107,5 +107,5 @@ func _load_shortcuts() -> void:
 # -------------------------------------------------------------------------------------------------
 func store_shortcuts() -> void:	
 	for action_name in Utils.bindable_actions():
-		_config_file.set_value(SHORTCUTS_SECTION, action_name, InputMap.get_action_list(action_name))
+		_config_file.set_value(SHORTCUTS_SECTION, action_name, InputMap.action_get_events(action_name))
 	_save_settings()

@@ -1,11 +1,11 @@
 class_name DeletePaletteDialog
-extends WindowDialog
+extends Window
 
 # -------------------------------------------------------------------------------------------------
 signal palette_deleted
 
 # -------------------------------------------------------------------------------------------------
-onready var _text: Label = $MarginContainer/Container/Label
+@onready var _text: Label = $MarginContainer/Container/Label
 
 # -------------------------------------------------------------------------------------------------
 func _on_DeletePaletteDialog_about_to_show() -> void:
