@@ -1,5 +1,7 @@
 extends TextureButton
 
+# TODO(gd4): maybe get rid of this completly
+
 # -------------------------------------------------------------------------------------------------
 @export var hover_tint := Color.WHITE
 @export var pressed_tint := Color.WHITE
@@ -37,12 +39,11 @@ func toggle() -> void:
 		self_modulate = _normal_tint
 	else:
 		self_modulate = pressed_tint
-	pressed = !pressed
+	button_pressed = !button_pressed 
 
 # -------------------------------------------------------------------------------------------------
-func set_pressed(is_pressed) -> void:
-	pressed = is_pressed
-	_on_pressed()
+func set_pressed_my(p: bool) -> void:
+	button_pressed = p
 
 # -------------------------------------------------------------------------------------------------
 func _on_pressed() -> void:

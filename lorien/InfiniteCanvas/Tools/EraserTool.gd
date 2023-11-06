@@ -44,7 +44,7 @@ func _stroke_intersects_circle(stroke: BrushStroke, circle_position: Vector2) ->
 		var radius: float = segment_radius + eraser_brush_radius
 		var start = stroke.position + stroke.points[i]
 		var end = stroke.position + stroke.points[i+1]
-		if Geometry.segment_intersects_circle(start, end, circle_position, radius*OVERLAP_THRESHOLD) >= 0:
+		if Geometry2D.segment_intersects_circle(start, end, circle_position, radius*OVERLAP_THRESHOLD) >= 0:
 			return true
 	return false
 
@@ -61,8 +61,8 @@ func _add_undoredo_action_for_erased_strokes() -> void:
 		project.undo_redo.create_action("Erase Stroke")
 		for stroke in _removed_strokes:
 			_removed_strokes.erase(stroke)
-			project.undo_redo.add_do_method(_canvas, "_do_delete_stroke", stroke)
-			project.undo_redo.add_undo_method(_canvas, "_undo_delete_stroke", stroke)
+			project.undo_redo.add_do_method(Callable(_canvas, "_do_delete_stroke").bind(stroke))
+			project.undo_redo.add_undo_method(Callable(_canvas, "_undo_delete_stroke").bind(stroke))
 		project.undo_redo.commit_action()
 		project.dirty = true
 
@@ -74,5 +74,6 @@ func _update_bounding_boxes() -> void:
 
 # ------------------------------------------------------------------------------------------------
 func reset() -> void:
+	super() # TODO(gd4) not sure if the super call is needed here?
 	_bounding_box_cache.clear()
 	performing_stroke = false

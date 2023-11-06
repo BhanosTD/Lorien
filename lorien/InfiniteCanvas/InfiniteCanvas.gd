@@ -85,7 +85,7 @@ func _process_event(event: InputEvent) -> void:
 		if _active_tool == _selection_tool:
 			_delete_selected_strokes()
 	
-	if ! get_tree().is_input_handled():
+	if !get_tree().is_input_handled():
 		_camera.tool_event(event)
 	if ! get_tree().is_input_handled():
 		if _active_tool.enabled:
@@ -251,12 +251,12 @@ func end_stroke() -> void:
 			_strokes_parent.remove_child(_current_stroke)
 			
 			_current_project.undo_redo.create_action("Stroke")
-			_current_project.undo_redo.add_undo_method(self, "undo_last_stroke")
+			_current_project.undo_redo.add_undo_method(undo_last_stroke)
 			_current_project.undo_redo.add_undo_reference(_current_stroke)
-			_current_project.undo_redo.add_do_method(_strokes_parent, "add_child", _current_stroke)
+			_current_project.undo_redo.add_do_method(Callable(_strokes_parent, "add_child").bind(_current_stroke))
 			_current_project.undo_redo.add_do_property(info, "stroke_count", info.stroke_count + 1)
 			_current_project.undo_redo.add_do_property(info, "point_count", info.point_count + _current_stroke.points.size())
-			_current_project.undo_redo.add_do_method(_current_project, "add_stroke", _current_stroke)
+			_current_project.undo_redo.add_do_method(Callable(_current_project, "add_stroke").bind(_current_stroke))
 			_current_project.undo_redo.commit_action()
 		
 		_current_stroke = null
@@ -267,10 +267,10 @@ func add_strokes(strokes: Array) -> void:
 	var point_count := 0
 	for stroke in strokes:
 		point_count += stroke.points.size()
-		_current_project.undo_redo.add_undo_method(self, "undo_last_stroke")
+		_current_project.undo_redo.add_undo_method(undo_last_stroke)
 		_current_project.undo_redo.add_undo_reference(stroke)
-		_current_project.undo_redo.add_do_method(_strokes_parent, "add_child", stroke)
-		_current_project.undo_redo.add_do_method(_current_project, "add_stroke", stroke)
+		_current_project.undo_redo.add_do_method(Callable(_strokes_parent, "add_child").bind(stroke))
+		_current_project.undo_redo.add_do_method(Callable(_current_project, "add_stroke").bind(stroke))
 	_current_project.undo_redo.add_do_property(info, "stroke_count", info.stroke_count + strokes.size())
 	_current_project.undo_redo.add_do_property(info, "point_count", info.point_count + point_count)
 	_current_project.undo_redo.commit_action()
@@ -294,7 +294,7 @@ func use_project(project: Project) -> void:
 		info.stroke_count += 1
 		info.point_count += stroke.points.size()
 	
-	_grid.update()
+	_grid.queue_redraw()
 	
 # -------------------------------------------------------------------------------------------------
 func undo_last_stroke() -> void:
@@ -342,9 +342,9 @@ func _delete_selected_strokes() -> void:
 	if !strokes.is_empty():
 		_current_project.undo_redo.create_action("Delete Selection")
 		for stroke in strokes:
-			_current_project.undo_redo.add_do_method(self, "_do_delete_stroke", stroke)
+			_current_project.undo_redo.add_do_method(_do_delete_stroke.bind(stroke))
 			_current_project.undo_redo.add_undo_reference(stroke)
-			_current_project.undo_redo.add_undo_method(self, "_undo_delete_stroke", stroke)
+			_current_project.undo_redo.add_undo_method(_undo_delete_stroke.bind(stroke))
 		_selection_tool.deselect_all_strokes()
 		_current_project.undo_redo.commit_action()
 		_current_project.dirty = true
@@ -352,7 +352,7 @@ func _delete_selected_strokes() -> void:
 # -------------------------------------------------------------------------------------------------
 func _do_delete_stroke(stroke: BrushStroke) -> void:
 	var index := _current_project.strokes.find(stroke)
-	_current_project.strokes.remove(index)
+	_current_project.strokes.remove_at(index)
 	_strokes_parent.remove_child(stroke)
 	info.point_count -= stroke.points.size()
 	info.stroke_count -= 1

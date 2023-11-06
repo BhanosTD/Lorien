@@ -352,8 +352,7 @@ func _on_clear_canvas() -> void:
 # -------------------------------------------------------------------------------------------------
 func _on_open_project(filepath: String) -> bool:
 	# Check if file exists
-	var file := File.new()
-	if !file.file_exists(filepath):
+	if !FileAccess.file_exists(filepath):
 		return false
 	
 	var project: Project = ProjectManager.get_open_project_by_filepath(filepath)
@@ -380,7 +379,7 @@ func _on_open_project(filepath: String) -> bool:
 func _on_save_project_as() -> void:
 	var active_project: Project = ProjectManager.get_active_project()
 	_canvas.disable()
-	_file_dialog.mode = FileDialog.FILE_MODE_SAVE_FILE
+	_file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	_file_dialog.invalidate()
 	_file_dialog.current_file = active_project.filepath.get_file()
 	_file_dialog.connect("file_selected", Callable(self, "_on_file_selected_to_save_project"))
@@ -392,7 +391,7 @@ func _on_save_project() -> void:
 	var active_project: Project = ProjectManager.get_active_project()
 	if active_project.filepath.is_empty():
 		_canvas.disable()
-		_file_dialog.mode = FileDialog.FILE_MODE_SAVE_FILE
+		_file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 		_file_dialog.invalidate()
 		_file_dialog.connect("file_selected", Callable(self, "_on_file_selected_to_save_project"))
 		_file_dialog.connect("popup_hide", Callable(self, "_on_file_dialog_closed"))
@@ -521,7 +520,7 @@ func _on_NewPaletteDialog_new_palette_created(palette: Palette) -> void:
 
 # --------------------------------------------------------------------------------------------------
 func _update_brush_color() -> void:
-	var color_index := min(_brush_color_picker.get_active_color_index(), PaletteManager.get_active_palette().colors.size()-1)
+	var color_index: int = min(_brush_color_picker.get_active_color_index(), PaletteManager.get_active_palette().colors.size()-1)
 	_brush_color_picker.update_palettes(color_index)
 	_toolbar.set_brush_color(_brush_color_picker.get_active_color())
 	_canvas.set_brush_color(_brush_color_picker.get_active_color())
@@ -536,16 +535,19 @@ func _on_DeletePaletteDialog_palette_deleted() -> void:
 
 # --------------------------------------------------------------------------------------------------
 func _on_scale_changed() -> void:
-	var auto_scale: int = Settings.get_value(Settings.APPEARANCE_UI_SCALE_MODE, Config.DEFAULT_UI_SCALE_MODE)
-	var scale: float
-	match auto_scale:
-		Types.UIScale.AUTO:   scale = _get_platform_ui_scale()
-		Types.UIScale.CUSTOM: scale = Settings.get_value(Settings.APPEARANCE_UI_SCALE, Config.DEFAULT_UI_SCALE)
-	scale = clamp(scale, _settings_dialog.get_min_ui_scale(), _settings_dialog.get_max_ui_scale())
-
-	_canvas.set_canvas_scale(scale)
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_IGNORE, Vector2(0,0), scale)
-	get_window().min_size = Config.MIN_WINDOW_SIZE * scale
+	# TODO(gd4): implement
+	pass
+	
+	#var auto_scale: int = Settings.get_value(Settings.APPEARANCE_UI_SCALE_MODE, Config.DEFAULT_UI_SCALE_MODE)
+	#var scale: float
+	#match auto_scale:
+		#Types.UIScale.AUTO:   scale = _get_platform_ui_scale()
+		#Types.UIScale.CUSTOM: scale = Settings.get_value(Settings.APPEARANCE_UI_SCALE, Config.DEFAULT_UI_SCALE)
+	#scale = clamp(scale, _settings_dialog.get_min_ui_scale(), _settings_dialog.get_max_ui_scale())
+#
+	#_canvas.set_canvas_scale(scale)
+	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_IGNORE, Vector2(0,0), scale)
+	#get_window().min_size = Config.MIN_WINDOW_SIZE * scale
 
 # --------------------------------------------------------------------------------------------------
 func _get_platform_ui_scale() -> float:

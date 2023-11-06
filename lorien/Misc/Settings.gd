@@ -31,7 +31,9 @@ func _ready():
 	_load_settings()
 	_load_shortcuts()
 	_setup_default_shortcuts()
-	reload_locales()
+	
+	# TODO(gd4): the i18n templating stuff is broken at runtime; skip this for now
+	#reload_locales()
 
 # -------------------------------------------------------------------------------------------------
 func reload_locales():

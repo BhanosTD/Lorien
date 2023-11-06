@@ -66,7 +66,9 @@ class ParsedSymbol:
 	var value
 	
 	func _init(_name: String, _last_position: int, _subsymbols: Array, _value):
-		super()
+		# TODO(gd4): how??? why??
+		#super()
+		
 		name = _name
 		last_position = _last_position
 		subsymbols = _subsymbols
@@ -121,7 +123,9 @@ class GrammarSequence:
 	var flatten_same_name := false
 	
 	func _init(_name: String, _elements: Array = [], _flatten_same_name = false):
-		super()
+		# TODO(gd4): how??? why??
+		#super()
+		
 		name = _name
 		elements = _elements
 		flatten_same_name = _flatten_same_name
@@ -159,7 +163,9 @@ class GrammarLiteral:
 	var ignore_whitespace := true
 	
 	func _init(_name: String, _value = null):
-		super()
+		# TODO(gd4): how??? why??
+		#super()
+		
 		if _value == null:
 			_value = _name
 		name = _name
@@ -183,7 +189,9 @@ class GrammarRegexMatch:
 	var ignore_whitespace := true
 	
 	func _init(_name: String, pattern: String):
-		super()
+		# TODO(gd4): how??? why??
+		#super()
+		
 		name = _name
 		regex = RegEx.new()
 		regex.compile(pattern)

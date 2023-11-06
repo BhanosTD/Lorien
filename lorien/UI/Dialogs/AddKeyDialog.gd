@@ -1,7 +1,8 @@
 extends Window
 
 # -------------------------------------------------------------------------------------------------
-const _MODIFIER_KEYS := [KEY_SUPER_L, KEY_SUPER_R, KEY_CTRL, KEY_SHIFT, KEY_META, KEY_ALT]
+#const _MODIFIER_KEYS := [KEY_SUPER_L, KEY_SUPER_R, KEY_CTRL, KEY_SHIFT, KEY_META, KEY_ALT]
+const _MODIFIER_KEYS := [KEY_CTRL, KEY_SHIFT, KEY_META, KEY_ALT] # TODO(gd4): KEY_SUPER_L, KEY_SUPER_R not available; don't know the new ones...
 
 # -------------------------------------------------------------------------------------------------
 @export var action_name := ""

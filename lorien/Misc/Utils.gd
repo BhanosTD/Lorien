@@ -5,7 +5,8 @@ const UUID_ALPHABET := "abcdefghijklmnopqrstuvwxyz0123456789"
 
 # -------------------------------------------------------------------------------------------------
 func get_native_mouse_position_on_screen() -> Vector2:
-	return get_window().position + get_viewport().get_mouse_position()
+	var win_pos := get_window().position
+	return get_viewport().get_mouse_position() + Vector2(win_pos.x, win_pos.y)
 
 # -------------------------------------------------------------------------------------------------
 func remove_signal_connections(node: Node, signal_name: String) -> void:

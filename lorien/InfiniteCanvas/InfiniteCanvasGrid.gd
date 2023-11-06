@@ -25,33 +25,37 @@ func enable(e: bool) -> void:
 	visible = e
 
 # -------------------------------------------------------------------------------------------------
-func _on_zoom_changed(zoom: float) -> void: update()
-func _on_position_changed(pos: Vector2) -> void: update()
-func _on_viewport_size_changed() -> void: update()
+func _on_zoom_changed(zoom: float) -> void: queue_redraw()
+func _on_position_changed(pos: Vector2) -> void: queue_redraw()
+func _on_viewport_size_changed() -> void: queue_redraw()
 
 # -------------------------------------------------------------------------------------------------
 func set_grid_size(size: int) -> void:
 	_grid_size = size
-	update()
+	queue_redraw()
 
 # -------------------------------------------------------------------------------------------------
 func set_grid_pattern(pattern: int) -> void:
 	_pattern = pattern
-	update()
+	queue_redraw()
 
 # -------------------------------------------------------------------------------------------------
 func set_canvas_color(c: Color) -> void:
 	_grid_color = c * 1.25
-	update()
+	queue_redraw()
 
 # -------------------------------------------------------------------------------------------------
 func set_grid_scale(size: float):
 	_grid_size *= size
-	update()
+	queue_redraw()
 
 # -------------------------------------------------------------------------------------------------
 func _draw() -> void:
-	var size = get_viewport().size  * _camera.zoom
+	#var size = get_viewport().size  * _camera.zoom
+	
+	# TODO(gd4): no idea if this is the eqivialnt of the above line
+	var size := Vector2(DisplayServer.window_get_size().x, DisplayServer.window_get_size().y) * _camera.zoom
+
 	var zoom = _camera.zoom.x
 	var offset = _camera.offset
 	var grid_size := int(ceil((_grid_size * pow(zoom, 0.75))))
