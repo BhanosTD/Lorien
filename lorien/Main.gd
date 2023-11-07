@@ -198,10 +198,10 @@ func _apply_state() -> void:
 		get_window().mode = Window.MODE_MAXIMIZED if (true) else Window.MODE_WINDOWED
 	else:
 		get_window().size = win_size
-		
-		# TODO(GD4): how?
-		# OS.center_window()
+
+	# TODO(gd4): do i still need this?
 	await get_tree().create_timer(0.12).timeout
+
 	
 	# Open projects
 	var open_projects: Array = StatePersistence.get_value(StatePersistence.OPEN_PROJECTS, Array())
