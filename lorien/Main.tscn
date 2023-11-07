@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://pj4pn7wnr8ma" path="res://InfiniteCanvas/InfiniteCanvas.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://UI/Statusbar.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://UI/Menubar.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://UI/MainMenu.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://ch7vecolnfs4i" path="res://UI/Statusbar.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b3kkskkr105t5" path="res://UI/Menubar.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bn6lqd25ki4sd" path="res://UI/MainMenu.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://bro2sug12l4bp" path="res://UI/Toolbar.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://UI/Dialogs/UnsavedChangesDialog.tscn" id="7"]
 [ext_resource type="Theme" uid="uid://2j7q70cs0j70" path="res://UI/Themes/theme_dark.tres" id="8"]
-[ext_resource type="PackedScene" path="res://UI/Dialogs/AboutDialog.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://dxu1i1qw6md0g" path="res://UI/Dialogs/AboutDialog.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://em4qucitmb2x" path="res://UI/Dialogs/SettingsDialog.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://UI/Dialogs/ExitDialog.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://bgxiwmoq2e61s" path="res://UI/Dialogs/NewPaletteDialog.tscn" id="12"]
@@ -40,6 +40,7 @@ script = ExtResource("1")
 
 [node name="InfiniteCanvas" parent="." instance=ExtResource("2")]
 layout_mode = 0
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 stretch = true
@@ -60,12 +61,8 @@ layout_mode = 2
 file_dialog_path = NodePath("../../FileDialog")
 
 [node name="Statusbar" parent="." instance=ExtResource("3")]
-layout_mode = 0
-anchor_top = 1.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-offset_top = -24.0
-offset_bottom = 0.0
+layout_mode = 1
+offset_top = 0.0
 scale = Vector2(1, 1.00112)
 
 [node name="BackgroundColorPickerPopup" type="Popup" parent="."]
@@ -101,9 +98,12 @@ delete_palette_dialog = NodePath("../DeletePaletteDialog")
 toolbar_path = NodePath("../Topbar/Toolbar")
 
 [node name="MainMenu" parent="." instance=ExtResource("5")]
+visible = false
 file_dialog_path = NodePath("../FileDialog")
 
 [node name="FileDialog" type="FileDialog" parent="."]
+initial_position = 4
+size = Vector2i(900, 600)
 theme = ExtResource("8")
 access = 2
 filters = PackedStringArray("*.lorien")
@@ -124,6 +124,8 @@ visible = false
 visible = false
 
 [node name="ExportDialog" type="FileDialog" parent="."]
+initial_position = 4
+size = Vector2i(900, 600)
 theme = ExtResource("8")
 access = 2
 

@@ -7,6 +7,7 @@ extends Window
 func _ready():
 	_version_label.text = "Lorien v%s" % Config.VERSION_STRING
 	size.y = $MarginContainer.size.y + 5
+	close_requested.connect(hide)
 
 # -------------------------------------------------------------------------------------------------
 func _on_GithubLinkButton_pressed():

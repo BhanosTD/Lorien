@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bro2sug12l4bp"]
+[gd_scene load_steps=22 format=3 uid="uid://bro2sug12l4bp"]
 
 [ext_resource type="Texture2D" uid="uid://gcvc5f6seh8a" path="res://Assets/Icons/save_file.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://dpaofpbn0fdsa" path="res://Assets/Icons/open_file.png" id="2"]
@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://b0357cusqaj3j" path="res://Assets/Icons/selection_tool.png" id="16"]
 [ext_resource type="Texture2D" uid="uid://p4kk1owxfgw0" path="res://Assets/Icons/fullscreen.png" id="18"]
 [ext_resource type="Texture2D" uid="uid://df65t61nanoyt" path="res://Assets/Icons/circle_tool.png" id="19"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p28wl"]
+bg_color = Color(0.207843, 0.211765, 0.227451, 1)
 
 [sub_resource type="StyleBoxEmpty" id="2"]
 
@@ -39,6 +42,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 40.0
 theme = ExtResource("15")
+theme_override_styles/panel = SubResource("StyleBoxFlat_p28wl")
 script = ExtResource("3")
 
 [node name="Console" type="HBoxContainer" parent="."]

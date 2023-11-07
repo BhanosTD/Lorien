@@ -87,17 +87,17 @@ func _ready():
 	_apply_state()
 
 # -------------------------------------------------------------------------------------------------
-#func _notification(what: int):
-	#if NOTIFICATION_WM_CLOSE_REQUEST == what:
-		#if !_exit_dialog.visible:
-			#if ProjectManager.has_unsaved_changes():
-				#_exit_dialog.call_deferred("popup")
-			#else:
-				#_save_state()
-				## we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
-				#await get_tree().create_timer(0.12).timeout
-				#get_tree().quit()
-#
+func _notification(what: int):
+	if NOTIFICATION_WM_CLOSE_REQUEST == what:
+		if !_exit_dialog.visible:
+			if ProjectManager.has_unsaved_changes():
+				_exit_dialog.call_deferred("popup")
+			else:
+				_save_state()
+				# we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
+				await get_tree().create_timer(0.12).timeout
+				get_tree().quit()
+
 	#elif NOTIFICATION_APPLICATION_FOCUS_IN == what:
 		#Engine.max_fps = Settings.get_value(Settings.RENDERING_FOREGROUND_FPS, Config.DEFAULT_FOREGROUND_FPS)
 		#if !_is_mouse_on_ui() && _canvas != null && !is_dialog_open():

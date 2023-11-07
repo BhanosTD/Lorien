@@ -20,21 +20,11 @@ const ITEM_MANUAL 		:= 5
 const ITEM_BUG_TRACKER 	:= 6
 const ITEM_ABOUT 		:= 7
 
-const ITEM_VIEW_1 		:= 100
-const ITEM_VIEW_2 		:= 101
-const ITEM_VIEW_3 		:= 102
-
 # -------------------------------------------------------------------------------------------------
 @export var file_dialog_path: NodePath
-@onready var _submenu_views: PopupMenu = $ViewsMenu
 
 # -------------------------------------------------------------------------------------------------
 func _ready() -> void:
-	# Views submenu
-	_submenu_views.name = "Views"
-	_submenu_views.add_item("View 1", ITEM_VIEW_1)
-	_submenu_views.add_item("View 2", ITEM_VIEW_2)
-
 	# main menu
 	_apply_language()
 	GlobalSignals.connect("language_changed", Callable(self, "_apply_language"))

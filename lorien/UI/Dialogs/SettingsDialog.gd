@@ -48,6 +48,7 @@ signal grid_pattern_changed(pattern)
 func _ready():
 	_set_values()
 	_apply_language()
+	close_requested.connect(hide)
 	GlobalSignals.connect("language_changed", Callable(self, "_apply_language"))
 
 # -------------------------------------------------------------------------------------------------

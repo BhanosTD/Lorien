@@ -11,6 +11,7 @@ signal create_new_project
 
 # -------------------------------------------------------------------------------------------------
 @onready var _file_tabs_container: HBoxContainer = $Left/TabBar
+@onready var _menu_button: TextureButton = $Left/MenuButton
 @export var _main_menu_path: NodePath
 var _active_file_tab: ProjectTab
 var _tabs_map: Dictionary # Dictonary<project_id, ProjectTab>
@@ -80,7 +81,10 @@ func _on_NewFileButton_pressed():
 
 # -------------------------------------------------------------------------------------------------
 func _on_MenuButton_pressed():
-	get_node(_main_menu_path).popup()
+	var menu: PopupMenu = get_node(_main_menu_path)
+	var mouse_pos := Utils.get_native_mouse_position_on_screen()
+	var rect := Rect2i(Vector2i(mouse_pos.x, mouse_pos.y), Vector2i.ZERO)
+	menu.popup(rect)
 
 # -------------------------------------------------------------------------------------------------
 func get_first_project_id() -> int:
