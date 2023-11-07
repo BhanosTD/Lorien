@@ -135,6 +135,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "TOOLBAR_TOOLTIP_BRUSH_TOOL"
 toggle_mode = true
+button_pressed = true
 texture_normal = ExtResource("8")
 script = ExtResource("13")
 hover_tint = Color(0.662745, 0.945098, 0.87451, 1)
