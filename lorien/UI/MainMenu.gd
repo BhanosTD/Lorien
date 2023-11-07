@@ -69,7 +69,7 @@ func _on_open_project():
 	var file_dialog: FileDialog = get_node(file_dialog_path)
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	file_dialog.connect("file_selected", Callable(self, "_on_project_selected_to_open"))
-	file_dialog.connect("popup_hide", Callable(self, "_on_file_dialog_closed"))
+	file_dialog.connect("close_requested", Callable(self, "_on_file_dialog_closed"))
 	file_dialog.invalidate()
 	file_dialog.popup_centered()
 
@@ -81,9 +81,9 @@ func _on_project_selected_to_open(filepath: String) -> void:
 func _on_file_dialog_closed() -> void:
 	var file_dialog: FileDialog = get_node(file_dialog_path)
 	Utils.remove_signal_connections(file_dialog, "file_selected")
-	Utils.remove_signal_connections(file_dialog, "popup_hide")
+	Utils.remove_signal_connections(file_dialog, "close_requested")
 
 # -------------------------------------------------------------------------------------------------
-func add_item_with_shortcut(target: PopupMenu, name: String, id: int, shortcut_action: String) -> void:
+func add_item_with_shortcut(target: PopupMenu, item_name: String, id: int, shortcut_action: String) -> void:
 	var shortcut = InputMap.action_get_events(shortcut_action)[0].get_keycode_with_modifiers()
-	target.add_item(name, id, shortcut)
+	target.add_item(item_name, id, shortcut)

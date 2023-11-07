@@ -68,7 +68,7 @@ func _on_ColorPicker_color_changed(color: Color) -> void:
 		_palette.colors[_active_button_index] = color
 		
 # -------------------------------------------------------------------------------------------------
-func _on_EditPaletteDialog_popup_hide() -> void:
+func _on_close_requested() -> void:
 	if _palette_edited:
 		PaletteManager.save()
 		emit_signal("palette_changed")

@@ -36,7 +36,7 @@ func _ready():
 	_export_dialog.current_dir = Settings.get_value(Settings.GENERAL_DEFAULT_PROJECT_DIR, docs_folder)
 	
 	# Signals
-	get_tree().connect("files_dropped", Callable(self, "_on_files_dropped"))
+	get_viewport().connect("files_dropped", Callable(self, "_on_files_dropped"))
 	
 	_toolbar.connect("undo_action", Callable(self, "_on_undo_action"))
 	_toolbar.connect("redo_action", Callable(self, "_on_redo_action"))
@@ -87,26 +87,26 @@ func _ready():
 	_apply_state()
 
 # -------------------------------------------------------------------------------------------------
-func _notification(what: int):
-	if NOTIFICATION_WM_CLOSE_REQUEST == what:
-		if !_exit_dialog.visible:
-			if ProjectManager.has_unsaved_changes():
-				_exit_dialog.call_deferred("popup")
-			else:
-				_save_state()
-				 # we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
-				await get_tree().create_timer(0.12).timeout
-				get_tree().quit()
-
-	elif NOTIFICATION_APPLICATION_FOCUS_IN == what:
-		Engine.max_fps = Settings.get_value(Settings.RENDERING_FOREGROUND_FPS, Config.DEFAULT_FOREGROUND_FPS)
-		if !_is_mouse_on_ui() && _canvas != null && !is_dialog_open():
-			await get_tree().create_timer(0.12).timeout
-			_canvas.enable()
-	elif NOTIFICATION_APPLICATION_FOCUS_OUT == what:
-		Engine.max_fps = Settings.get_value(Settings.RENDERING_BACKGROUND_FPS, Config.DEFAULT_BACKGROUND_FPS)
-		if _canvas != null:
-			_canvas.disable()
+#func _notification(what: int):
+	#if NOTIFICATION_WM_CLOSE_REQUEST == what:
+		#if !_exit_dialog.visible:
+			#if ProjectManager.has_unsaved_changes():
+				#_exit_dialog.call_deferred("popup")
+			#else:
+				#_save_state()
+				## we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
+				#await get_tree().create_timer(0.12).timeout
+				#get_tree().quit()
+#
+	#elif NOTIFICATION_APPLICATION_FOCUS_IN == what:
+		#Engine.max_fps = Settings.get_value(Settings.RENDERING_FOREGROUND_FPS, Config.DEFAULT_FOREGROUND_FPS)
+		#if !_is_mouse_on_ui() && _canvas != null && !is_dialog_open():
+			#await get_tree().create_timer(0.12).timeout
+			#_canvas.enable()
+	#elif NOTIFICATION_APPLICATION_FOCUS_OUT == what:
+		#Engine.max_fps = Settings.get_value(Settings.RENDERING_BACKGROUND_FPS, Config.DEFAULT_BACKGROUND_FPS)
+		#if _canvas != null:
+			#_canvas.disable()
 
 # -------------------------------------------------------------------------------------------------
 func _exit_tree():
@@ -128,42 +128,42 @@ func _process(delta):
 		_menubar.update_tab_title(active_project)
 
 # -------------------------------------------------------------------------------------------------
-func _unhandled_input(event):
-	if ! is_dialog_open():
-		if Utils.event_pressed_bug_workaround("toggle_player", event):
-			_toggle_player()
-		
-		if !_player_enabled:
-			if Utils.event_pressed_bug_workaround("shortcut_new_project", event):
-				_on_create_new_project()
-			elif Utils.event_pressed_bug_workaround("shortcut_open_project", event):
-				_toolbar._on_OpenFileButton_pressed()
-			elif Utils.event_pressed_bug_workaround("shortcut_save_project", event):
-				_on_save_project()
-			elif Utils.event_pressed_bug_workaround("shortcut_export_project", event):
-				_export_svg()
-			elif Utils.event_pressed_bug_workaround("shortcut_undo", event):
-				_on_undo_action()
-			elif Utils.event_pressed_bug_workaround("shortcut_redo", event):
-				_on_redo_action()
-			elif Utils.event_pressed_bug_workaround("center_canvas_to_mouse", event):
-				_canvas.center_to_mouse()
-			elif Utils.event_pressed_bug_workaround("shortcut_brush_tool", event):
-				_toolbar.enable_tool(Types.Tool.BRUSH)
-			elif Utils.event_pressed_bug_workaround("shortcut_rectangle_tool", event):
-				_toolbar.enable_tool(Types.Tool.RECTANGLE)
-			elif Utils.event_pressed_bug_workaround("shortcut_circle_tool", event):
-				_toolbar.enable_tool(Types.Tool.CIRCLE)
-			elif Utils.event_pressed_bug_workaround("shortcut_line_tool", event):
-				_toolbar.enable_tool(Types.Tool.LINE)
-			elif Utils.event_pressed_bug_workaround("shortcut_eraser_tool", event):
-				_toolbar.enable_tool(Types.Tool.ERASER)
-			elif Utils.event_pressed_bug_workaround("shortcut_select_tool", event):
-				_toolbar.enable_tool(Types.Tool.SELECT)
-			elif Utils.event_pressed_bug_workaround("toggle_distraction_free_mode", event):
-				_toggle_distraction_free_mode()
-			elif Utils.event_pressed_bug_workaround("toggle_fullscreen", event):
-				_toggle_fullscreen()
+#func _unhandled_input(event):
+	#if ! is_dialog_open():
+		#if Utils.event_pressed_bug_workaround("toggle_player", event):
+			#_toggle_player()
+		#
+		#if !_player_enabled:
+			#if Utils.event_pressed_bug_workaround("shortcut_new_project", event):
+				#_on_create_new_project()
+			#elif Utils.event_pressed_bug_workaround("shortcut_open_project", event):
+				#_toolbar._on_OpenFileButton_pressed()
+			#elif Utils.event_pressed_bug_workaround("shortcut_save_project", event):
+				#_on_save_project()
+			#elif Utils.event_pressed_bug_workaround("shortcut_export_project", event):
+				#_export_svg()
+			#elif Utils.event_pressed_bug_workaround("shortcut_undo", event):
+				#_on_undo_action()
+			#elif Utils.event_pressed_bug_workaround("shortcut_redo", event):
+				#_on_redo_action()
+			#elif Utils.event_pressed_bug_workaround("center_canvas_to_mouse", event):
+				#_canvas.center_to_mouse()
+			#elif Utils.event_pressed_bug_workaround("shortcut_brush_tool", event):
+				#_toolbar.enable_tool(Types.Tool.BRUSH)
+			#elif Utils.event_pressed_bug_workaround("shortcut_rectangle_tool", event):
+				#_toolbar.enable_tool(Types.Tool.RECTANGLE)
+			#elif Utils.event_pressed_bug_workaround("shortcut_circle_tool", event):
+				#_toolbar.enable_tool(Types.Tool.CIRCLE)
+			#elif Utils.event_pressed_bug_workaround("shortcut_line_tool", event):
+				#_toolbar.enable_tool(Types.Tool.LINE)
+			#elif Utils.event_pressed_bug_workaround("shortcut_eraser_tool", event):
+				#_toolbar.enable_tool(Types.Tool.ERASER)
+			#elif Utils.event_pressed_bug_workaround("shortcut_select_tool", event):
+				#_toolbar.enable_tool(Types.Tool.SELECT)
+			#elif Utils.event_pressed_bug_workaround("toggle_distraction_free_mode", event):
+				#_toggle_distraction_free_mode()
+			#elif Utils.event_pressed_bug_workaround("toggle_fullscreen", event):
+				#_toggle_fullscreen()
 
 # -------------------------------------------------------------------------------------------------
 func _toggle_player() -> void:
@@ -329,12 +329,12 @@ func _on_brush_color_changed(color: Color) -> void:
 	_canvas.set_brush_color(color)
 
 # -------------------------------------------------------------------------------------------------
-func _on_brush_size_changed(size: int) -> void:
-	_canvas.set_brush_size(size)
+func _on_brush_size_changed(s: int) -> void:
+	_canvas.set_brush_size(s)
 
 # -------------------------------------------------------------------------------------------------
-func _on_grid_size_changed(size: int) -> void:
-	_canvas_grid.set_grid_size(size)
+func _on_grid_size_changed(s: int) -> void:
+	_canvas_grid.set_grid_size(s)
 
 # -------------------------------------------------------------------------------------------------
 func _on_grid_pattern_changed(pattern: int) -> void:
@@ -383,7 +383,7 @@ func _on_save_project_as() -> void:
 	_file_dialog.invalidate()
 	_file_dialog.current_file = active_project.filepath.get_file()
 	_file_dialog.connect("file_selected", Callable(self, "_on_file_selected_to_save_project"))
-	_file_dialog.connect("popup_hide", Callable(self, "_on_file_dialog_closed"))
+	_file_dialog.connect("close_requested", Callable(self, "_on_file_dialog_closed"))
 	_file_dialog.popup_centered()
 
 # -------------------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ func _on_save_project() -> void:
 		_file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 		_file_dialog.invalidate()
 		_file_dialog.connect("file_selected", Callable(self, "_on_file_selected_to_save_project"))
-		_file_dialog.connect("popup_hide", Callable(self, "_on_file_dialog_closed"))
+		_file_dialog.connect("close_requested", Callable(self, "_on_file_dialog_closed"))
 		_file_dialog.popup_centered()
 	else:
 		_save_project(active_project)
@@ -402,7 +402,7 @@ func _on_save_project() -> void:
 # -------------------------------------------------------------------------------------------------
 func _on_file_dialog_closed() -> void:
 	_file_dialog.disconnect("file_selected", Callable(self, "_on_file_selected_to_save_project"))
-	_file_dialog.disconnect("popup_hide", Callable(self, "_on_file_dialog_closed"))
+	_file_dialog.disconnect("close_requested", Callable(self, "_on_file_dialog_closed"))
 
 # -------------------------------------------------------------------------------------------------
 func _on_file_selected_to_save_project(filepath: String) -> void:
@@ -552,12 +552,12 @@ func _on_scale_changed() -> void:
 # --------------------------------------------------------------------------------------------------
 func _get_platform_ui_scale() -> float:
 	var platform: String = OS.get_name()
-	var scale: float
+	var ui_scale: float
 	match platform:
-		"OSX":     scale = DisplayServer.screen_get_scale()
-		"Windows": scale = DisplayServer.screen_get_dpi() / 96.0
-		_:         scale = _get_general_ui_scale()
-	return scale
+		"OSX":     ui_scale = DisplayServer.screen_get_scale()
+		"Windows": ui_scale = DisplayServer.screen_get_dpi() / 96.0
+		_:         ui_scale = _get_general_ui_scale()
+	return ui_scale
 
 # --------------------------------------------------------------------------------------------------
 func _get_general_ui_scale() -> float:

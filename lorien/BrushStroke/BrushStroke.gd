@@ -49,13 +49,13 @@ func _ready():
 	
 	refresh()
 
-# ------------------------------------------------------------------------------------------------
-func _on_VisibilityNotifier2D_viewport_entered(viewport: SubViewport) -> void: 
+# -------------------------------------------------------------------------------------------------
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	add_to_group(GROUP_ONSCREEN)
 	visible = true
-	
-# ------------------------------------------------------------------------------------------------
-func _on_VisibilityNotifier2D_viewport_exited(viewport: SubViewport) -> void:
+
+# -------------------------------------------------------------------------------------------------
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	remove_from_group(GROUP_ONSCREEN)
 	visible = false
 

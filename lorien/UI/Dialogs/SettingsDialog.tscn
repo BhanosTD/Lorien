@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://UI/Dialogs/SettingsDialog.gd" id="2"]
 [ext_resource type="Script" path="res://UI/Components/DelayedSpinBox.gd" id="3"]
 [ext_resource type="Script" path="res://UI/Components/KeyBindingsList.gd" id="4"]
-[ext_resource type="PackedScene" path="res://UI/Dialogs/AddKeyDialog.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://ci7pxptla7jcd" path="res://UI/Dialogs/AddKeyDialog.tscn" id="5"]
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -13,9 +13,19 @@
 [sub_resource type="StyleBoxEmpty" id="2"]
 
 [node name="SettingsDialog" type="Window"]
+title = "Settings"
+initial_position = 3
+size = Vector2i(600, 300)
+current_screen = 0
 exclusive = true
 theme = ExtResource("1")
 script = ExtResource("2")
+
+[node name="AddKeyDialog" parent="." instance=ExtResource("5")]
+visible = false
+
+[node name="ConfirmRebind" type="ConfirmationDialog" parent="AddKeyDialog"]
+dialog_autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -356,12 +366,7 @@ offset_top = 12.0
 layout_mode = 2
 columns = 3
 
-[node name="AddKeyDialog" parent="MarginContainer/TabContainer/Keybindings" instance=ExtResource("5")]
-window_title = "KEYBINDING_DIALOG_BIND_WINDOW_NAME"
-
-[node name="ConfirmRebind" type="ConfirmationDialog" parent="MarginContainer/TabContainer/Keybindings/AddKeyDialog"]
-dialog_autowrap = true
-
+[connection signal="confirmed" from="AddKeyDialog/ConfirmRebind" to="AddKeyDialog" method="_on_ConfirmRebind_confirmed"]
 [connection signal="value_changed" from="MarginContainer/TabContainer/General/VBoxContainer/PressureSensitivity/PressureSensitivity" to="." method="_on_PressureSensitivity_value_changed"]
 [connection signal="value_changed" from="MarginContainer/TabContainer/General/VBoxContainer/DefaultBrushSize/DefaultBrushSize" to="." method="_on_DefaultBrushSize_value_changed"]
 [connection signal="text_changed" from="MarginContainer/TabContainer/General/VBoxContainer/DefaultSaveDir/DefaultSaveDir" to="." method="_on_DefaultSaveDir_text_changed"]
@@ -377,4 +382,3 @@ dialog_autowrap = true
 [connection signal="item_selected" from="MarginContainer/TabContainer/Rendering/VBoxContainer/BrushRounding/OptionButton" to="." method="_on_Brush_rounding_item_selected"]
 [connection signal="value_changed" from="MarginContainer/TabContainer/Rendering/VBoxContainer/TargetFramerate/TargetFramerate" to="." method="_on_Target_Fps_Foreground_changed"]
 [connection signal="value_changed" from="MarginContainer/TabContainer/Rendering/VBoxContainer/BackgroundFramerate/BackgroundFramerate" to="." method="_on_Target_Fps_Background_changed"]
-[connection signal="confirmed" from="MarginContainer/TabContainer/Keybindings/AddKeyDialog/ConfirmRebind" to="MarginContainer/TabContainer/Keybindings/AddKeyDialog" method="_on_ConfirmRebind_confirmed"]

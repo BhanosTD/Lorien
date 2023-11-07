@@ -62,7 +62,7 @@ func _set_values() -> void:
 	var brush_size = Settings.get_value(Settings.GENERAL_DEFAULT_BRUSH_SIZE, Config.DEFAULT_BRUSH_SIZE)
 	var canvas_color = Settings.get_value(Settings.APPEARANCE_CANVAS_COLOR, Config.DEFAULT_CANVAS_COLOR)
 	var project_dir = Settings.get_value(Settings.GENERAL_DEFAULT_PROJECT_DIR, "")
-	var theme = Settings.get_value(Settings.APPEARANCE_THEME, Types.UITheme.DARK)
+	var ui_theme = Settings.get_value(Settings.APPEARANCE_THEME, Types.UITheme.DARK)
 	var aa_mode = Settings.get_value(Settings.RENDERING_AA_MODE, Config.DEFAULT_AA_MODE)
 	var locale = Settings.get_value(Settings.GENERAL_LANGUAGE, "en")
 	var foreground_fps = Settings.get_value(Settings.RENDERING_FOREGROUND_FPS, Config.DEFAULT_FOREGROUND_FPS)
@@ -73,7 +73,7 @@ func _set_values() -> void:
 	var grid_pattern = Settings.get_value(Settings.APPEARANCE_GRID_PATTERN, Config.DEFAULT_GRID_PATTERN)
 	var grid_size = Settings.get_value(Settings.APPEARANCE_GRID_SIZE, Config.DEFAULT_GRID_SIZE)
 	
-	match theme:
+	match ui_theme:
 		Types.UITheme.DARK: _theme.selected = THEME_DARK_INDEX
 		Types.UITheme.LIGHT: _theme.selected = THEME_LIGHT_INDEX
 	match aa_mode:
@@ -190,12 +190,12 @@ func _on_Target_Fps_Background_changed(value: int) -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _on_Theme_item_selected(index: int):
-	var theme: int
+	var ui_theme: int
 	match index:
-		THEME_DARK_INDEX: theme = Types.UITheme.DARK
-		THEME_LIGHT_INDEX: theme = Types.UITheme.LIGHT
+		THEME_DARK_INDEX: ui_theme = Types.UITheme.DARK
+		THEME_LIGHT_INDEX: ui_theme = Types.UITheme.LIGHT
 	
-	Settings.set_value(Settings.APPEARANCE_THEME, theme)
+	Settings.set_value(Settings.APPEARANCE_THEME, ui_theme)
 	_appearence_restart_label.show()
 
 # -------------------------------------------------------------------------------------------------

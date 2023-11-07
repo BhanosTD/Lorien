@@ -13,10 +13,6 @@ func _on_DeletePaletteDialog_about_to_show() -> void:
 	_text.text = tr("DELETE_PALETTE_DIALOG_TEXT") + " " + palette.name
 
 # -------------------------------------------------------------------------------------------------
-func _on_DeletePaletteDialog_popup_hide() -> void:
-	pass # Replace with function body.
-
-# -------------------------------------------------------------------------------------------------
 func _on_DeleteButton_pressed() -> void:
 	var palette := PaletteManager.get_active_palette()
 	if !palette.builtin:

@@ -20,12 +20,12 @@ func _on_zoom_changed(zoom_value: float) -> void:
 	scale = Vector2.ONE * zoom_value
 
 # -------------------------------------------------------------------------------------------------
-func set_mode(m: int) -> void:
+func set_mode(m: Mode) -> void:
 	mode = m
 	match mode:
 		Mode.MOVE: texture = MOVE_TEXTURE
 		_: texture = SELECT_TEXTURE
 
 # -------------------------------------------------------------------------------------------------
-func get_mode() -> int:
+func get_mode() -> Mode:
 	return mode

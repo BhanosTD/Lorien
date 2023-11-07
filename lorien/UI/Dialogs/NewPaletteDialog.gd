@@ -11,13 +11,13 @@ var duplicate_current_palette := false
 
 # -------------------------------------------------------------------------------------------------
 func _on_SaveButton_pressed() -> void:
-	var name := _line_edit.text
-	if !name.is_empty():
+	var palette_name := _line_edit.text
+	if !palette_name.is_empty():
 		var palette: Palette
 		if duplicate_current_palette:
-			palette = PaletteManager.duplicate_palette(PaletteManager.get_active_palette(), name)
+			palette = PaletteManager.duplicate_palette(PaletteManager.get_active_palette(), palette_name)
 		else:
-			palette = PaletteManager.create_custom_palette(name)
+			palette = PaletteManager.create_custom_palette(palette_name)
 		
 		if palette != null:
 			PaletteManager.save()
@@ -30,7 +30,7 @@ func _on_CancelButton_pressed() -> void:
 	hide()
 
 # -------------------------------------------------------------------------------------------------
-func _on_NewPaletteDialog_popup_hide() -> void:
+func _on_close_requested() -> void:
 	_line_edit.clear()
 
 # -------------------------------------------------------------------------------------------------

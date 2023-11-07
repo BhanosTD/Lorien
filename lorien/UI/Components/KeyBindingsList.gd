@@ -5,12 +5,12 @@ const KEYBINDINGS_LINE_SCENE = preload("res://UI/Components/KeyBindingsLine.tscn
 
 # -------------------------------------------------------------------------------------------------
 @onready var _grid := $ScrollContainer/KeyBindingsList
-@onready var _add_key_dialog := $AddKeyDialog
+@onready var _add_key_dialog: Window = $"../../../AddKeyDialog"
 
 # -------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	_populate_input_list()
-	_add_key_dialog.connect("hide", Callable(self, "_bind_key_dialog_hidden"))
+	_add_key_dialog.connect("close_requested", Callable(self, "_bind_key_dialog_hidden")) # TODO(gd4): signal used "hidden"? 
 	GlobalSignals.connect("language_changed", Callable(self, "_populate_input_list"))
 
 # -------------------------------------------------------------------------------------------------

@@ -50,7 +50,9 @@ func _ready():
 	
 	_camera.connect("zoom_changed", Callable(self, "_on_zoom_changed"))
 	_camera.connect("position_changed", Callable(self, "_on_camera_moved"))
-	_viewport.size = get_window().size
+	
+	# TODO(gd4): Can't change the size of a `SubViewport` with a `SubViewportContainer` parent that has `stretch` enabled. Set `SubViewportContainer.stretch` to `false` to allow changing the size manually.
+	#_viewport.size = get_window().size
 
 	info.pen_inverted = false
 
@@ -136,17 +138,17 @@ func set_background_color(color: Color) -> void:
 	_grid.set_canvas_color(_background_color)
 
 # -------------------------------------------------------------------------------------------------
-func enable_colliders(enable: bool) -> void:
-	if _colliders_enabled != enable:
-		_colliders_enabled = enable
+func enable_colliders(e: bool) -> void:
+	if _colliders_enabled != e:
+		_colliders_enabled = e
 		for stroke in _strokes_parent.get_children():
-			stroke.enable_collider(enable)
+			stroke.enable_collider(e)
 
 # -------------------------------------------------------------------------------------------------
-func enable_player(enable: bool) -> void:
-	if _player_enabled != enable:
-		_player_enabled = enable
-		if enable:
+func enable_player(e: bool) -> void:
+	if _player_enabled != e:
+		_player_enabled = e
+		if e:
 			if _player == null:
 				_player = PLAYER.instantiate()
 			_player.reset(_active_tool.get_cursor().global_position)
@@ -306,8 +308,8 @@ func undo_last_stroke() -> void:
 		info.stroke_count -= 1
 
 # -------------------------------------------------------------------------------------------------
-func set_brush_size(size: int) -> void:
-	_brush_size = size
+func set_brush_size(s: int) -> void:
+	_brush_size = s
 	if _active_tool != null:
 		_active_tool._on_brush_size_changed(_brush_size)
 
@@ -372,11 +374,13 @@ func _on_window_resized() -> void:
 	set_canvas_scale(_scale)
 
 # -------------------------------------------------------------------------------------------------
-func set_canvas_scale(scale: float) -> void:
-	_scale = scale
-	_grid.set_grid_scale(scale)
+func set_canvas_scale(s: float) -> void:
+	_scale = s
+	_grid.set_grid_scale(s)
+		
 	# Needed to stop stretching of the canvas
-	_viewport.set_size(get_viewport().get_size())
+	# TODO(gd4): Can't change the size of a `SubViewport` with a `SubViewportContainer` parent that has `stretch` enabled. Set `SubViewportContainer.stretch` to `false` to allow changing the size manually.
+	#_viewport.set_size(get_viewport().get_size())
 	
 # -------------------------------------------------------------------------------------------------
 func get_canvas_scale() -> float:
