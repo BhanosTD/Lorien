@@ -40,14 +40,14 @@ func tool_event(event: InputEvent) -> void:
 			# Scroll wheel up/down to zoom
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				if event.pressed:
-					_do_zoom_scroll(1)
+					_do_zoom_scroll(-1)
 			elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				if event.pressed:
-					_do_zoom_scroll(-1)
+					_do_zoom_scroll(1)
 			
 			# MMB press to begin pan; ctrl+MMB press to begin zoom
 			if event.button_index == MOUSE_BUTTON_MIDDLE:
-				if !event.control:
+				if !event.ctrl_pressed:
 					_pan_active = event.is_pressed()
 					_zoom_active = false
 				else:
@@ -63,11 +63,11 @@ func tool_event(event: InputEvent) -> void:
 				_do_zoom_drag(event.relative.y)
 		
 		elif Utils.event_pressed_bug_workaround("canvas_zoom_in", event):
-			_do_zoom_scroll(-1)
+			_do_zoom_scroll(1)
 			get_viewport().set_input_as_handled()
 		
 		elif Utils.event_pressed_bug_workaround("canvas_zoom_out", event):
-			_do_zoom_scroll(1)
+			_do_zoom_scroll(-1)
 			get_viewport().set_input_as_handled()
 		
 		elif Utils.event_pressed_bug_workaround("canvas_pan_left", event):
@@ -93,6 +93,7 @@ func _do_pan(pan: Vector2) -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _do_zoom_scroll(step: int) -> void:
+	print(get_local_mouse_position())
 	var new_zoom = _to_nearest_zoom_step(_current_zoom_level) * pow(ZOOM_INCREMENT, step)
 	_zoom_canvas(new_zoom, get_local_mouse_position())
 

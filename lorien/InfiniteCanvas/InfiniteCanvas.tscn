@@ -56,6 +56,7 @@ selection_rectangle_path = NodePath("../SubViewport/SelectionRectangle")
 cursor_path = NodePath("../SubViewport/SelectionCursor")
 
 [node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
