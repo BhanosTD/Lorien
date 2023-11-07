@@ -70,8 +70,10 @@ func _on_project_selected_to_open(filepath: String) -> void:
 # -------------------------------------------------------------------------------------------------
 func _on_file_dialog_closed() -> void:
 	var file_dialog: FileDialog = get_node(file_dialog_path)
-	Utils.remove_signal_connections(file_dialog, "file_selected")
-	Utils.remove_signal_connections(file_dialog, "close_requested")
+	
+	# TODO(gd4): this is stupid
+#	Utils.remove_signal_connections(file_dialog, "file_selected")
+#	Utils.remove_signal_connections(file_dialog, "close_requested")
 
 # -------------------------------------------------------------------------------------------------
 func add_item_with_shortcut(target: PopupMenu, item_name: String, id: int, shortcut_action: String) -> void:
