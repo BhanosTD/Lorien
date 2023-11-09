@@ -3,7 +3,7 @@ extends Camera2D
 signal zoom_changed(value)
 signal position_changed(value)
 
-const ZOOM_INCREMENT := 1.1 	# Feel free to modify (Krita uses sqrt(2))
+const ZOOM_INCREMENT := 1.1
 const MIN_ZOOM_LEVEL := 0.1
 const MAX_ZOOM_LEVEL := 100
 const KEYBOARD_PAN_CONSTANT := 20
@@ -88,12 +88,11 @@ func tool_event(event: InputEvent) -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _do_pan(pan: Vector2) -> void:
-	offset -= pan * _current_zoom_level
+	offset -= pan * (1.0 / _current_zoom_level)
 	emit_signal("position_changed", offset)
 
 # -------------------------------------------------------------------------------------------------
 func _do_zoom_scroll(step: int) -> void:
-	print(get_local_mouse_position())
 	var new_zoom = _to_nearest_zoom_step(_current_zoom_level) * pow(ZOOM_INCREMENT, step)
 	_zoom_canvas(new_zoom, get_local_mouse_position())
 
@@ -112,7 +111,7 @@ func _zoom_canvas(target_zoom: float, anchor: Vector2) -> void:
 	# Pan canvas to keep content fixed under the cursor
 	var zoom_center = anchor - offset
 	var ratio = 1.0 - target_zoom / _current_zoom_level
-	offset += zoom_center * ratio
+	offset -= zoom_center * ratio
 	
 	_current_zoom_level = target_zoom
 	

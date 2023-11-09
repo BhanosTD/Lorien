@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://b3kkskkr105t5" path="res://UI/Menubar.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bn6lqd25ki4sd" path="res://UI/MainMenu.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://bro2sug12l4bp" path="res://UI/Toolbar.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://UI/Dialogs/UnsavedChangesDialog.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://d2nmodwecvyw1" path="res://UI/Dialogs/UnsavedChangesDialog.tscn" id="7"]
 [ext_resource type="Theme" uid="uid://2j7q70cs0j70" path="res://UI/Themes/theme_dark.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://dxu1i1qw6md0g" path="res://UI/Dialogs/AboutDialog.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://em4qucitmb2x" path="res://UI/Dialogs/SettingsDialog.tscn" id="10"]
-[ext_resource type="PackedScene" path="res://UI/Dialogs/ExitDialog.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://kde8xtkl7v0w" path="res://UI/Dialogs/ExitDialog.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://bgxiwmoq2e61s" path="res://UI/Dialogs/NewPaletteDialog.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://UI/ColorPalettePicker.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dobtrlnto7bk6" path="res://UI/Dialogs/EditPaletteDialog.tscn" id="14"]
@@ -107,8 +107,12 @@ theme = ExtResource("8")
 access = 2
 filters = PackedStringArray("*.lorien")
 
+[node name="UnsavedChangesDialog" parent="." instance=ExtResource("7")]
+visible = false
+exclusive = true
+
 [node name="ExitDialog" parent="." instance=ExtResource("11")]
-position = Vector2i(0, 20)
+title = "EXIT_DIALOG_TITLE"
 visible = false
 exclusive = true
 
@@ -127,10 +131,6 @@ initial_position = 4
 size = Vector2i(900, 600)
 theme = ExtResource("8")
 access = 2
-
-[node name="UnsavedChangesDialog" parent="." instance=ExtResource("7")]
-visible = false
-exclusive = true
 
 [node name="AboutDialog" parent="." instance=ExtResource("9")]
 visible = false

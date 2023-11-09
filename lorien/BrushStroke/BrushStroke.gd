@@ -47,17 +47,18 @@ func _ready():
 			_line2d.end_cap_mode = Line2D.LINE_CAP_ROUND
 			_line2d.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	
+	_visibility_notifier.screen_entered.connect(_on_screen_entered)
+	_visibility_notifier.screen_exited.connect(_on_screen_exited)
+	
 	refresh()
 
 # -------------------------------------------------------------------------------------------------
-func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+func _on_screen_entered() -> void:
 	add_to_group(GROUP_ONSCREEN)
-	visible = true
 
 # -------------------------------------------------------------------------------------------------
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+func _on_screen_exited() -> void:
 	remove_from_group(GROUP_ONSCREEN)
-	visible = false
 
 # -------------------------------------------------------------------------------------------------
 func _to_string() -> String:

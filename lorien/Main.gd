@@ -91,7 +91,7 @@ func _notification(what: int):
 	if NOTIFICATION_WM_CLOSE_REQUEST == what:
 		if !_exit_dialog.visible:
 			if ProjectManager.has_unsaved_changes():
-				_exit_dialog.call_deferred("popup")
+				_exit_dialog.popup_centered()
 			else:
 				_save_state()
 				# we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
