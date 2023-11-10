@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b36td47bwadhq"]
+[gd_scene load_steps=16 format=3 uid="uid://b36td47bwadhq"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://pj4pn7wnr8ma" path="res://InfiniteCanvas/InfiniteCanvas.tscn" id="2"]
@@ -10,7 +10,6 @@
 [ext_resource type="Theme" uid="uid://2j7q70cs0j70" path="res://UI/Themes/theme_dark.tres" id="8"]
 [ext_resource type="PackedScene" uid="uid://dxu1i1qw6md0g" path="res://UI/Dialogs/AboutDialog.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://em4qucitmb2x" path="res://UI/Dialogs/SettingsDialog.tscn" id="10"]
-[ext_resource type="PackedScene" uid="uid://kde8xtkl7v0w" path="res://UI/Dialogs/ExitDialog.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://bgxiwmoq2e61s" path="res://UI/Dialogs/NewPaletteDialog.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://UI/ColorPalettePicker.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://dobtrlnto7bk6" path="res://UI/Dialogs/EditPaletteDialog.tscn" id="14"]
@@ -64,6 +63,18 @@ layout_mode = 1
 offset_top = 0.0
 scale = Vector2(1, 1.00112)
 
+[node name="BrushColorPicker" parent="." instance=ExtResource("13")]
+visible = false
+layout_mode = 0
+offset_left = 386.102
+offset_top = 79.6751
+offset_right = 744.102
+offset_bottom = 194.675
+add_new_palette_dialog_path = NodePath("../NewPaletteDialog")
+edit_palette_dialog = NodePath("../EditPaletteDialog")
+delete_palette_dialog = NodePath("../DeletePaletteDialog")
+toolbar_path = NodePath("../Topbar/Toolbar")
+
 [node name="BackgroundColorPickerPopup" type="Popup" parent="."]
 theme = ExtResource("8")
 
@@ -84,18 +95,6 @@ layout_mode = 2
 edit_alpha = false
 presets_visible = false
 
-[node name="BrushColorPicker" parent="." instance=ExtResource("13")]
-visible = false
-layout_mode = 0
-offset_left = 386.102
-offset_top = 79.6751
-offset_right = 744.102
-offset_bottom = 194.675
-add_new_palette_dialog_path = NodePath("../NewPaletteDialog")
-edit_palette_dialog = NodePath("../EditPaletteDialog")
-delete_palette_dialog = NodePath("../DeletePaletteDialog")
-toolbar_path = NodePath("../Topbar/Toolbar")
-
 [node name="MainMenu" parent="." instance=ExtResource("5")]
 visible = false
 file_dialog_path = NodePath("../FileDialog")
@@ -111,7 +110,7 @@ filters = PackedStringArray("*.lorien")
 visible = false
 exclusive = true
 
-[node name="ExitDialog" parent="." instance=ExtResource("11")]
+[node name="ExitDialog" parent="." instance=ExtResource("7")]
 title = "EXIT_DIALOG_TITLE"
 visible = false
 exclusive = true

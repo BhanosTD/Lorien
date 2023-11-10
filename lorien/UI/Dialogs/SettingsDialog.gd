@@ -8,12 +8,15 @@ const GRID_PATTERN_DOTS_INDEX 	:= 0
 const GRID_PATTERN_LINES_INDEX 	:= 1
 const GRID_PATTERN_NONE_INDEX 	:= 2
 
-const AA_NONE_INDEX 		:= 0
+const AA_TEXTURE_FILL_INDEX := 0
 const AA_OPENGL_HINT_INDEX 	:= 1
-const AA_TEXTURE_FILL_INDEX := 2
+const AA_NONE_INDEX 		:= 2
 
 const UI_SCALE_AUTO_INDEX := 0
 const UI_SCALE_CUSTOM_INDEX := 1
+
+const BRUSH_ROUNDING_ROUND_INDEX := 0
+const BRUSH_ROUNDING_FLAT_INDEX := 1
 
 # -------------------------------------------------------------------------------------------------
 signal ui_scale_changed
@@ -106,8 +109,13 @@ func _set_values() -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _set_rounding():
-	_brush_rounding_options.selected = Settings.get_value(Settings.RENDERING_BRUSH_ROUNDING, Config.DEFAULT_BRUSH_ROUNDING)
-
+	var value: int = Settings.get_value(Settings.RENDERING_BRUSH_ROUNDING, Config.DEFAULT_BRUSH_ROUNDING)
+	match value:
+		Types.BrushRoundingType.ROUNDED:
+			_brush_rounding_options.selected = BRUSH_ROUNDING_ROUND_INDEX
+		Types.BrushRoundingType.FLAT:
+			_brush_rounding_options.selected = BRUSH_ROUNDING_FLAT_INDEX
+			
 # -------------------------------------------------------------------------------------------------
 func _set_languages(current_locale: String) -> void:
 	# Technically, Settings.language_names is useless from here on out, but I figure it's probably gonna come in handy in the future
@@ -213,15 +221,11 @@ func _on_AntiAliasing_item_selected(index: int):
 # -------------------------------------------------------------------------------------------------
 func _on_Brush_rounding_item_selected(index: int):
 	match index:
-		0:
+		BRUSH_ROUNDING_FLAT_INDEX:
 			Settings.set_value(Settings.RENDERING_BRUSH_ROUNDING, Types.BrushRoundingType.FLAT)
-		1:
+		BRUSH_ROUNDING_ROUND_INDEX:
 			Settings.set_value(Settings.RENDERING_BRUSH_ROUNDING, Types.BrushRoundingType.ROUNDED)
-	
-	# The Changes do work even without restarting but if the user doesn't restart old strokes remain
-	# the same (Don't wanna implement saving of the cap roundings per line since that would break file
-	# Compatibility)
-	_general_restart_label.show()
+	_rendering_restart_label.show()
 
 # -------------------------------------------------------------------------------------------------
 func _on_OptionButton_item_selected(idx: int):

@@ -22,16 +22,19 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="SaveButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "SAVE"
 
 [node name="DiscardButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "DISCARD"
 
 [node name="CancelButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "CANCEL"
@@ -45,7 +48,3 @@ offset_right = 145.5
 offset_bottom = 51.0
 theme_override_fonts/font = ExtResource("2")
 text = "UNSAVED_CHANGES_DIALOG_TEXT"
-
-[connection signal="pressed" from="HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
-[connection signal="pressed" from="HBoxContainer/DiscardButton" to="." method="_on_DiscardButton_pressed"]
-[connection signal="pressed" from="HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]

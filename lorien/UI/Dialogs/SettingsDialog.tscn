@@ -39,6 +39,7 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 
 [node name="General" type="Control" parent="MarginContainer/TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/General"]
@@ -161,6 +162,9 @@ text = "SETTINGS_THEME"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+item_count = 1
+popup/item_0/text = "Dark"
+popup/item_0/id = 0
 
 [node name="UIScale" type="HBoxContainer" parent="MarginContainer/TabContainer/Appearance/VBoxContainer"]
 layout_mode = 2
@@ -180,6 +184,11 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+item_count = 2
+popup/item_0/text = "Auto"
+popup/item_0/id = 0
+popup/item_1/text = "Custom"
+popup/item_1/id = 1
 
 [node name="UIScale" type="SpinBox" parent="MarginContainer/TabContainer/Appearance/VBoxContainer/UIScale/HBoxContainer"]
 layout_mode = 2
@@ -227,6 +236,11 @@ text = "SETTINGS_GRID_PATTERN"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+item_count = 2
+popup/item_0/text = "Dots"
+popup/item_0/id = 0
+popup/item_1/text = "Lines"
+popup/item_1/id = 1
 
 [node name="GridSize" type="HBoxContainer" parent="MarginContainer/TabContainer/Appearance/VBoxContainer"]
 layout_mode = 2
@@ -244,7 +258,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 8.0
 max_value = 256.0
-value = 12.0
+value = 25.0
 allow_greater = true
 
 [node name="HSeparator5" type="HSeparator" parent="MarginContainer/TabContainer/Appearance/VBoxContainer"]
@@ -259,7 +273,6 @@ theme_override_colors/font_color = Color(1, 0.470588, 0.470588, 1)
 text = "SETTINGS_RESTART_NOTICE"
 
 [node name="Rendering" type="Control" parent="MarginContainer/TabContainer"]
-visible = false
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Rendering"]
@@ -286,6 +299,13 @@ text = "SETTINGS_AA_METHOD"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+item_count = 3
+popup/item_0/text = "Texture Fill"
+popup/item_0/id = 0
+popup/item_1/text = "OpenGL Hint"
+popup/item_1/id = 1
+popup/item_2/text = "None"
+popup/item_2/id = 2
 
 [node name="BrushRounding" type="HBoxContainer" parent="MarginContainer/TabContainer/Rendering/VBoxContainer"]
 layout_mode = 2
@@ -300,6 +320,11 @@ text = "SETTINGS_BRUSH_CAPS"
 [node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Rendering/VBoxContainer/BrushRounding"]
 layout_mode = 2
 size_flags_horizontal = 3
+item_count = 2
+popup/item_0/text = "Round"
+popup/item_0/id = 0
+popup/item_1/text = "Flat"
+popup/item_1/id = 1
 
 [node name="TargetFramerate" type="HBoxContainer" parent="MarginContainer/TabContainer/Rendering/VBoxContainer"]
 layout_mode = 2

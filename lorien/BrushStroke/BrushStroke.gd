@@ -31,6 +31,7 @@ func _ready():
 	
 	# Anti aliasing
 	var aa_mode: int = Settings.get_value(Settings.RENDERING_AA_MODE, Config.DEFAULT_AA_MODE)
+	aa_mode = Types.AAMode.TEXTURE_FILL
 	match aa_mode:
 		Types.AAMode.OPENGL_HINT:
 			_line2d.antialiased = true
