@@ -321,9 +321,14 @@ func _show_autosave_not_implemented_alert() -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _toggle_fullscreen():
-	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (!((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))) else Window.MODE_WINDOWED
-	_toolbar.set_fullscreen_toggle(((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN)))
-
+	var mode := get_window().mode
+	if mode == Window.MODE_EXCLUSIVE_FULLSCREEN || mode == Window.MODE_FULLSCREEN:
+		get_window().mode = Window.MODE_WINDOWED
+		_toolbar.set_fullscreen_toggle(false)
+	else:
+		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+		_toolbar.set_fullscreen_toggle(true)
+		
 # -------------------------------------------------------------------------------------------------
 func _on_brush_color_changed(color: Color) -> void:
 	_canvas.set_brush_color(color)
@@ -520,7 +525,10 @@ func _on_NewPaletteDialog_new_palette_created(palette: Palette) -> void:
 
 # --------------------------------------------------------------------------------------------------
 func _update_brush_color() -> void:
-	var color_index: int = min(_brush_color_picker.get_active_color_index(), PaletteManager.get_active_palette().colors.size()-1)
+	var color_index: int = min(
+		_brush_color_picker.get_active_color_index(), 
+		PaletteManager.get_active_palette().colors.size() - 1
+	)
 	_brush_color_picker.update_palettes(color_index)
 	_toolbar.set_brush_color(_brush_color_picker.get_active_color())
 	_canvas.set_brush_color(_brush_color_picker.get_active_color())
