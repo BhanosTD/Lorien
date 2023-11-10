@@ -9,8 +9,8 @@ const SUBDIVISION_THRESHHOLD := 50.0 # min length in pixels for when subdivision
 # -------------------------------------------------------------------------------------------------
 @export var cursor_path: NodePath
 
-var _cursor: Sprite2D # This is a BaseCursor. Can't type it.
-var _canvas: Node # This is an InfinteCanvas. Can't type it though because of cyclic dependency bugs...
+var _cursor: BaseCursor
+var _canvas: InfiniteCanvas
 var enabled := false: get = get_enabled, set = set_enabled
 var performing_stroke := false
 
@@ -91,7 +91,8 @@ func end_stroke() -> void:
 
 # -------------------------------------------------------------------------------------------------
 func xform_vector2(v: Vector2) -> Vector2:
-	return _canvas.get_camera_3d() * (v * _canvas.get_canvas_scale())
+	var cam := _canvas.get_camera()
+	return v * (1.0 / cam.zoom.x) + cam.offset
 
 # -------------------------------------------------------------------------------------------------
 func reset() -> void:
