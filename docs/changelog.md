@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.7.0] - Unreleased
+
+### Added
+- Using native file dialogs for saving/opening/exporting files
+
+### Changed
+- Updated to Godot 4.2
+
 ## [0.6.0] - 2023-11-06
 
 It's been a while - but here is a another release! Special thanks goes to [@MrApplejuice](https://github.com/MrApplejuice) for adding support for rebindable keyboard shortcuts and [@hansemro](https://github.com/hansemro) for enabling the eraser mode when the pen is inverted!
@@ -158,6 +166,7 @@ If you rely on these eraser-strokes: DO NOT UPDATE to this version or BACKUP you
 - Designed to be used with a drawing tablet (Wacom, etc.). It also supports pressure sensitivity
 - Runs on Windows, Linux & Mac
 
+[0.7.0]: https://github.com/mbrlabs/lorien/compare/v0.6.0...HEAD
 [0.6.0]: https://github.com/mbrlabs/lorien/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/mbrlabs/lorien/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/mbrlabs/lorien/compare/v0.3.0...v0.4.0
