@@ -1,23 +1,26 @@
-extends SubViewportContainer
 class_name InfiniteCanvas
+extends Control
 
 # -------------------------------------------------------------------------------------------------
 const BRUSH_STROKE = preload("res://BrushStroke/BrushStroke.tscn")
 const PLAYER = preload("res://Misc/Player/Player.tscn")
 
 # -------------------------------------------------------------------------------------------------
-@onready var _brush_tool: BrushTool = $BrushTool
-@onready var _rectangle_tool: RectangleTool = $RectangleTool
-@onready var _line_tool: LineTool = $LineTool
-@onready var _circle_tool: CircleTool = $CircleTool
-@onready var _eraser_tool: EraserTool = $EraserTool
-@onready var _selection_tool: SelectionTool = $SelectionTool
+@onready var _brush_tool: BrushTool = $SubviewportContainer/BrushTool
+@onready var _rectangle_tool: RectangleTool = $SubviewportContainer/RectangleTool
+@onready var _line_tool: LineTool = $SubviewportContainer/LineTool
+@onready var _circle_tool: CircleTool = $SubviewportContainer/CircleTool
+@onready var _eraser_tool: EraserTool = $SubviewportContainer/EraserTool
+@onready var _selection_tool: SelectionTool = $SubviewportContainer/SelectionTool
 @onready var _active_tool: CanvasTool = _brush_tool
 @onready var _active_tool_type: int = Types.Tool.BRUSH
-@onready var _strokes_parent: Node2D = $SubViewport/Strokes
-@onready var _camera: Camera2D = $SubViewport/Camera2D
-@onready var _viewport: SubViewport = $SubViewport
-@onready var _grid: InfiniteCanvasGrid = $SubViewport/Grid
+@onready var _strokes_parent: Node2D = $SubviewportContainer/SubViewport/Strokes
+@onready var _camera: Camera2D = $SubviewportContainer/SubViewport/Camera2D
+@onready var _viewport: SubViewport = $SubviewportContainer/SubViewport
+@onready var _grid: InfiniteCanvasGrid = $SubviewportContainer/SubViewport/Grid
+@onready var _sub_viewport: SubViewport = $SubviewportContainer/SubViewport
+@onready var _background: ColorRect = $Background
+
 
 var info := Types.CanvasInfo.new()
 var _is_enabled := false
@@ -43,7 +46,7 @@ func _ready():
 	
 	get_tree().get_root().connect("size_changed", Callable(self, "_on_window_resized"))
 	
-	for child in $SubViewport.get_children():
+	for child in _sub_viewport.get_children():
 		if child is BaseCursor:
 			_camera.connect("zoom_changed", Callable(child, "_on_zoom_changed"))
 			_camera.connect("position_changed", Callable(child, "_on_canvas_position_changed"))
@@ -134,7 +137,7 @@ func use_tool(tool_type: int) -> void:
 # -------------------------------------------------------------------------------------------------
 func set_background_color(color: Color) -> void:
 	_background_color = color
-	RenderingServer.set_default_clear_color(_background_color)
+	_background.color = color
 	_grid.set_canvas_color(_background_color)
 
 # -------------------------------------------------------------------------------------------------

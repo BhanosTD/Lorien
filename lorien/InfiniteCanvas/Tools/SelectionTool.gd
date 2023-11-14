@@ -61,7 +61,7 @@ func tool_event(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			# LMB down - decide if we should select/multiselect or move the selection
 			if event.pressed:
-				_selecting_start_pos = xform_vector2(event.global_position)
+				_selecting_start_pos = _cursor.global_position
 				if event.shift_pressed:
 					_state = State.SELECTING
 					_multi_selecting = true
@@ -101,7 +101,7 @@ func tool_event(event: InputEvent) -> void:
 	
 	# Mouse movement: move the selection
 	elif event is InputEventMouseMotion:
-		var event_pos := xform_vector2(event.global_position)
+		var event_pos := _cursor.global_position
 		if _state == State.SELECTING:
 			_selecting_end_pos = event_pos
 			compute_selection(_selecting_start_pos, _selecting_end_pos)

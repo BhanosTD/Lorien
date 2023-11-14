@@ -1,5 +1,5 @@
 class_name EditPaletteDialog
-extends Window
+extends BaseDialog
 
 # -------------------------------------------------------------------------------------------------
 const PALETTE_BUTTON = preload("res://UI/Components/PaletteButton.tscn")
@@ -8,9 +8,9 @@ const PALETTE_BUTTON = preload("res://UI/Components/PaletteButton.tscn")
 signal palette_changed
 
 # -------------------------------------------------------------------------------------------------
-@onready var _name_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/NameLineEdit
-@onready var _color_picker: ColorPicker = $MarginContainer/HBoxContainer/ColorPicker
-@onready var _color_grid: GridContainer = $MarginContainer/HBoxContainer/VBoxContainer/ColorGrid
+@onready var _name_line_edit: LineEdit = $HBoxContainer/VBoxContainer/NameLineEdit
+@onready var _color_picker: ColorPicker = $HBoxContainer/ColorPicker
+@onready var _color_grid: GridContainer = $HBoxContainer/VBoxContainer/ColorGrid
 
 var _palette: Palette
 var _active_button: PaletteButton = null
@@ -19,8 +19,12 @@ var _disable_color_picker_callback := false
 var _palette_edited := false
 
 # -------------------------------------------------------------------------------------------------
-func _ready() -> void:
-	close_requested.connect(hide)
+func on_close_requested(window: DialogWindow) -> bool:
+	if _palette_edited:
+		PaletteManager.save()
+		emit_signal("palette_changed")
+	hide()
+	return true
 
 # -------------------------------------------------------------------------------------------------
 func setup(palette: Palette, color_index: int) -> void:
@@ -70,12 +74,6 @@ func _on_ColorPicker_color_changed(color: Color) -> void:
 		_palette_edited = true
 		_active_button.color = color
 		_palette.colors[_active_button_index] = color
-		
-# -------------------------------------------------------------------------------------------------
-func _on_close_requested() -> void:
-	if _palette_edited:
-		PaletteManager.save()
-		emit_signal("palette_changed")
 
 # -------------------------------------------------------------------------------------------------
 func _on_NameLineEdit_text_changed(new_text: String) -> void:

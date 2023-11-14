@@ -1,4 +1,5 @@
-extends Window
+class_name UnsavedChangesDialog
+extends BaseDialog
 
 # -------------------------------------------------------------------------------------------------
 signal cancel
@@ -8,11 +9,16 @@ signal discard_changes(project_ids)
 # -------------------------------------------------------------------------------------------------
 var project_ids: Array
 
+# -------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	%SaveButton.pressed.connect(_on_save)
 	%DiscardButton.pressed.connect(_on_discard)
 	%CancelButton.pressed.connect(_on_cancel)
-	close_requested.connect(_on_cancel)
+
+# -------------------------------------------------------------------------------------------------
+func on_close_requested(window: DialogWindow) -> bool:
+	_on_cancel()
+	return true
 
 # -------------------------------------------------------------------------------------------------
 func set_text(text: String) -> void:
@@ -20,15 +26,15 @@ func set_text(text: String) -> void:
 
 # -------------------------------------------------------------------------------------------------
 func _on_cancel(): 
-	hide()
+	close()
 	emit_signal("cancel")
 
 # -------------------------------------------------------------------------------------------------
 func _on_save(): 
-	hide()
+	close()
 	emit_signal("save_changes", project_ids)
 
 # -------------------------------------------------------------------------------------------------	
 func _on_discard(): 
-	hide()
+	close()
 	emit_signal("discard_changes", project_ids)

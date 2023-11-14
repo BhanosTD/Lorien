@@ -17,7 +17,7 @@ var performing_stroke := false
 # -------------------------------------------------------------------------------------------------
 func _ready():
 	_cursor = get_node(cursor_path)
-	_canvas = get_parent()
+	_canvas = get_parent().get_parent()
 	set_enabled(false)
 
 # -------------------------------------------------------------------------------------------------
@@ -89,10 +89,11 @@ func end_stroke() -> void:
 	_canvas.end_stroke()
 	performing_stroke = false
 
+# TODO(gd4): probably don't need this anymore
 # -------------------------------------------------------------------------------------------------
-func xform_vector2(v: Vector2) -> Vector2:
-	var cam := _canvas.get_camera()
-	return v * (1.0 / cam.zoom.x) + cam.offset
+#func xform_vector2(v: Vector2) -> Vector2:
+	#var cam := _canvas.get_camera()
+	#return v * (1.0 / cam.zoom.x) + cam.offset
 
 # -------------------------------------------------------------------------------------------------
 func reset() -> void:

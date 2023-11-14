@@ -2,23 +2,22 @@ extends Control
 
 # -------------------------------------------------------------------------------------------------
 @onready var _canvas: InfiniteCanvas = $InfiniteCanvas
-@onready var _canvas_grid: InfiniteCanvasGrid = $InfiniteCanvas/SubViewport/Grid
+@onready var _canvas_grid: InfiniteCanvasGrid = $InfiniteCanvas/SubviewportContainer/SubViewport/Grid
 @onready var _statusbar: Statusbar = $Statusbar
 @onready var _menubar: Menubar = $Topbar/Menubar
 @onready var _toolbar: Toolbar = $Topbar/Toolbar
 @onready var _file_dialog: FileDialog = $FileDialog
-@onready var _export_dialog : FileDialog = $ExportDialog
-@onready var _about_dialog: Window = $AboutDialog
-@onready var _settings_dialog: Window = $SettingsDialog
+@onready var _export_dialog : FileDialog = $ExportFileDialog
+@onready var _about_dialog: AboutDialog = $AboutWindow/AboutDialog
+@onready var _settings_dialog: SettingsDialog = $SettingsWindow/SettingsDialog
 @onready var _brush_color_picker: ColorPalettePicker = $BrushColorPicker
 @onready var _main_menu: MainMenu = $MainMenu
 @onready var _generic_alert_dialog: AcceptDialog = $GenericAlertDialog
-@onready var _exit_dialog: Window = $ExitDialog
-@onready var _unsaved_changes_dialog: Window = $UnsavedChangesDialog
-@onready var _background_color_picker: ColorPicker = $BackgroundColorPickerPopup/PanelContainer/ColorPicker
-@onready var _new_palette_dialog: NewPaletteDialog = $NewPaletteDialog
-@onready var _delete_palette_dialog: DeletePaletteDialog = $DeletePaletteDialog
-@onready var _edit_palette_dialog: EditPaletteDialog = $EditPaletteDialog
+@onready var _exit_dialog: UnsavedChangesDialog = $ExitWindow/ExitDialog
+@onready var _unsaved_changes_dialog: UnsavedChangesDialog = $UnsavedChangesWindow/UnsavedChangesDialog
+@onready var _new_palette_dialog: NewPaletteDialog = $NewPaletteWindow/NewPaletteDialog
+@onready var _delete_palette_dialog: DeletePaletteDialog = $DeletePaletteWindow/DeletePaletteDialog
+@onready var _edit_palette_dialog: EditPaletteDialog = $EditPaletteWindow/EditPaletteDialog
 
 var _ui_visible := true 
 var _player_enabled := false
@@ -89,9 +88,9 @@ func _ready():
 # -------------------------------------------------------------------------------------------------
 func _notification(what: int):
 	if NOTIFICATION_WM_CLOSE_REQUEST == what:
-		if !_exit_dialog.visible:
+		if !_exit_dialog.get_parent().visible:
 			if ProjectManager.has_unsaved_changes():
-				_exit_dialog.popup_centered()
+				_exit_dialog.open()
 			else:
 				_save_state()
 				# we have to wait a bit before exiting; otherwise the changes might not be persisted correctly.
@@ -100,7 +99,7 @@ func _notification(what: int):
 
 	#elif NOTIFICATION_APPLICATION_FOCUS_IN == what:
 		#Engine.max_fps = Settings.get_value(Settings.RENDERING_FOREGROUND_FPS, Config.DEFAULT_FOREGROUND_FPS)
-		#if !_is_mouse_on_ui() && _canvas != null && !is_dialog_open():
+		#if !_is_mouse_on_ui() && _canvas != null):
 			#await get_tree().create_timer(0.12).timeout
 			#_canvas.enable()
 	#elif NOTIFICATION_APPLICATION_FOCUS_OUT == what:
@@ -129,41 +128,40 @@ func _process(delta):
 
 # -------------------------------------------------------------------------------------------------
 func _unhandled_input(event):
-	if ! is_dialog_open():
-		if Utils.event_pressed_bug_workaround("toggle_player", event):
-			_toggle_player()
-		
-		if !_player_enabled:
-			if Utils.event_pressed_bug_workaround("shortcut_new_project", event):
-				_on_create_new_project()
-			elif Utils.event_pressed_bug_workaround("shortcut_open_project", event):
-				_toolbar._on_OpenFileButton_pressed()
-			elif Utils.event_pressed_bug_workaround("shortcut_save_project", event):
-				_on_save_project()
-			elif Utils.event_pressed_bug_workaround("shortcut_export_project", event):
-				_export_svg()
-			elif Utils.event_pressed_bug_workaround("shortcut_undo", event):
-				_on_undo_action()
-			elif Utils.event_pressed_bug_workaround("shortcut_redo", event):
-				_on_redo_action()
-			elif Utils.event_pressed_bug_workaround("center_canvas_to_mouse", event):
-				_canvas.center_to_mouse()
-			elif Utils.event_pressed_bug_workaround("shortcut_brush_tool", event):
-				_toolbar.enable_tool(Types.Tool.BRUSH)
-			elif Utils.event_pressed_bug_workaround("shortcut_rectangle_tool", event):
-				_toolbar.enable_tool(Types.Tool.RECTANGLE)
-			elif Utils.event_pressed_bug_workaround("shortcut_circle_tool", event):
-				_toolbar.enable_tool(Types.Tool.CIRCLE)
-			elif Utils.event_pressed_bug_workaround("shortcut_line_tool", event):
-				_toolbar.enable_tool(Types.Tool.LINE)
-			elif Utils.event_pressed_bug_workaround("shortcut_eraser_tool", event):
-				_toolbar.enable_tool(Types.Tool.ERASER)
-			elif Utils.event_pressed_bug_workaround("shortcut_select_tool", event):
-				_toolbar.enable_tool(Types.Tool.SELECT)
-			elif Utils.event_pressed_bug_workaround("toggle_distraction_free_mode", event):
-				_toggle_distraction_free_mode()
-			elif Utils.event_pressed_bug_workaround("toggle_fullscreen", event):
-				_toggle_fullscreen()
+	if Utils.event_pressed_bug_workaround("toggle_player", event):
+		_toggle_player()
+	
+	if !_player_enabled:
+		if Utils.event_pressed_bug_workaround("shortcut_new_project", event):
+			_on_create_new_project()
+		elif Utils.event_pressed_bug_workaround("shortcut_open_project", event):
+			_toolbar._on_OpenFileButton_pressed()
+		elif Utils.event_pressed_bug_workaround("shortcut_save_project", event):
+			_on_save_project()
+		elif Utils.event_pressed_bug_workaround("shortcut_export_project", event):
+			_export_svg()
+		elif Utils.event_pressed_bug_workaround("shortcut_undo", event):
+			_on_undo_action()
+		elif Utils.event_pressed_bug_workaround("shortcut_redo", event):
+			_on_redo_action()
+		elif Utils.event_pressed_bug_workaround("center_canvas_to_mouse", event):
+			_canvas.center_to_mouse()
+		elif Utils.event_pressed_bug_workaround("shortcut_brush_tool", event):
+			_toolbar.enable_tool(Types.Tool.BRUSH)
+		elif Utils.event_pressed_bug_workaround("shortcut_rectangle_tool", event):
+			_toolbar.enable_tool(Types.Tool.RECTANGLE)
+		elif Utils.event_pressed_bug_workaround("shortcut_circle_tool", event):
+			_toolbar.enable_tool(Types.Tool.CIRCLE)
+		elif Utils.event_pressed_bug_workaround("shortcut_line_tool", event):
+			_toolbar.enable_tool(Types.Tool.LINE)
+		elif Utils.event_pressed_bug_workaround("shortcut_eraser_tool", event):
+			_toolbar.enable_tool(Types.Tool.ERASER)
+		elif Utils.event_pressed_bug_workaround("shortcut_select_tool", event):
+			_toolbar.enable_tool(Types.Tool.SELECT)
+		elif Utils.event_pressed_bug_workaround("toggle_distraction_free_mode", event):
+			_toggle_distraction_free_mode()
+		elif Utils.event_pressed_bug_workaround("toggle_fullscreen", event):
+			_toggle_fullscreen()
 
 # -------------------------------------------------------------------------------------------------
 func _toggle_player() -> void:
@@ -257,13 +255,6 @@ func _is_mouse_on_ui() -> bool:
 	return on_ui
 
 # -------------------------------------------------------------------------------------------------
-func is_dialog_open() -> bool:
-	var open := _file_dialog.visible || _about_dialog.visible
-	open = open || (_settings_dialog.visible || _generic_alert_dialog.visible)
-	open = open || (_new_palette_dialog.visible || _edit_palette_dialog.visible || _delete_palette_dialog.visible)
-	return open
-
-# -------------------------------------------------------------------------------------------------
 func _create_active_default_project() -> void:
 	var default_project: Project = ProjectManager.add_project()
 	_make_project_active(default_project)
@@ -291,7 +282,7 @@ func _on_project_closed(project_id: int) -> void:
 	if project.dirty:
 		_unsaved_changes_dialog.project_ids.clear()
 		_unsaved_changes_dialog.project_ids.append(project_id)
-		_unsaved_changes_dialog.popup_centered()
+		_unsaved_changes_dialog.open()
 	else:
 		_close_project(project_id)
 
@@ -456,21 +447,21 @@ func _on_close_file_with_changes_saved(project_ids: Array) -> void:
 		else:
 			ProjectManager.save_project(project)
 			_close_project(id)
-	_unsaved_changes_dialog.hide()
+	_unsaved_changes_dialog.close()
 
 # -------------------------------------------------------------------------------------------------
 func _on_close_file_with_changes_discarded(project_ids: Array) -> void:
 	for id in project_ids:
 		_close_project(id)
-	_unsaved_changes_dialog.hide()
+	_unsaved_changes_dialog.close()
 
 # -------------------------------------------------------------------------------------------------
 func _on_open_about_dialog() -> void:
-	_about_dialog.popup()
+	_about_dialog.open()
 
 # -------------------------------------------------------------------------------------------------
 func _on_open_settings_dialog() -> void:
-	_settings_dialog.popup()
+	_settings_dialog.open()
 
 # -------------------------------------------------------------------------------------------------
 func _on_open_url(url: String) -> void:
@@ -519,7 +510,7 @@ func _on_BrushColorPicker_closed() -> void:
 		_canvas.enable()
 
 # --------------------------------------------------------------------------------------------------
-func _on_NewPaletteDialog_new_palette_created(palette: Palette) -> void:
+func _on_new_palette_dialog_new_palette_created(palette: Palette) -> void:
 	PaletteManager.set_active_palette(palette)
 	_brush_color_picker.update_palettes()
 

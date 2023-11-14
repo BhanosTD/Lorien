@@ -5,7 +5,7 @@ const OUTLINE_COLOR = Color.WHITE
 const FILL_COLOR = Color(1.0, 1.0, 1.0, 0.05)
 
 # -------------------------------------------------------------------------------------------------
-@onready var _canvas: Control = $"../../"
+@onready var _canvas: Control = $"../../../"
 var start_position: Vector2
 var end_position: Vector2
 

@@ -1,4 +1,5 @@
-extends Window
+class_name SettingsDialog
+extends BaseDialog
 
 # -------------------------------------------------------------------------------------------------
 const THEME_DARK_INDEX 	:= 0
@@ -51,8 +52,11 @@ signal grid_pattern_changed(pattern)
 func _ready():
 	_set_values()
 	_apply_language()
-	close_requested.connect(hide)
 	GlobalSignals.connect("language_changed", Callable(self, "_apply_language"))
+
+# -------------------------------------------------------------------------------------------------
+func on_close_requested(window: DialogWindow) -> bool:
+	return true
 
 # -------------------------------------------------------------------------------------------------
 func _apply_language() -> void:
@@ -246,11 +250,9 @@ func _on_UIScaleOptions_item_selected(index: int):
 			_ui_scale.set_editable(true)
 			Settings.set_value(Settings.APPEARANCE_UI_SCALE_MODE, Types.UIScale.CUSTOM)
 	emit_signal("ui_scale_changed")
-	popup_centered()
 
 # -------------------------------------------------------------------------------------------------
 func _on_UIScale_value_changed(value: float):
 	if Input.is_action_just_pressed("ui_accept") || _ui_scale.is_ready():
 		Settings.set_value(Settings.APPEARANCE_UI_SCALE, value)
 		emit_signal("ui_scale_changed")
-		popup_centered()
