@@ -23,7 +23,6 @@ func on_close_requested(window: DialogWindow) -> bool:
 	if _palette_edited:
 		PaletteManager.save()
 		emit_signal("palette_changed")
-	hide()
 	return true
 
 # -------------------------------------------------------------------------------------------------
@@ -44,7 +43,7 @@ func setup(palette: Palette, color_index: int) -> void:
 		var button: PaletteButton = PALETTE_BUTTON.instantiate()
 		_color_grid.add_child(button)
 		button.color = color
-		button.connect("pressed", Callable(self, "_on_platte_button_pressed").bind(button, index))
+		button.connect("pressed", _on_platte_button_pressed.bind(button, index))
 		index += 1
 	
 	# Set name
@@ -67,7 +66,7 @@ func _on_platte_button_pressed(button: PaletteButton, index: int) -> void:
 	_disable_color_picker_callback = true
 	
 # -------------------------------------------------------------------------------------------------
-func _on_ColorPicker_color_changed(color: Color) -> void:
+func _on_color_picker_color_changed(color: Color) -> void:
 	if _disable_color_picker_callback:
 		_disable_color_picker_callback = false
 	elif _active_button != null:
@@ -76,12 +75,12 @@ func _on_ColorPicker_color_changed(color: Color) -> void:
 		_palette.colors[_active_button_index] = color
 
 # -------------------------------------------------------------------------------------------------
-func _on_NameLineEdit_text_changed(new_text: String) -> void:
+func _on_name_line_edit_text_changed(new_text: String) -> void:
 	_palette_edited = true
 	_palette.name = new_text
 
 # -------------------------------------------------------------------------------------------------
-func _on_AddColorButton_pressed() -> void:
+func _on_add_color_button_pressed() -> void:
 	if _palette.colors.size() < Config.MAX_PALETTE_SIZE:
 		_palette_edited = true
 		var new_color := _palette.colors[_active_button_index]
@@ -99,9 +98,9 @@ func _on_AddColorButton_pressed() -> void:
 		button.color = new_color
 		button.connect("pressed", Callable(self, "_on_platte_button_pressed").bind(button, _color_grid.get_child_count() - 1))
 		_on_platte_button_pressed(button, _color_grid.get_child_count() - 1)
-	
+
 # -------------------------------------------------------------------------------------------------
-func _on_RemoveColorButton_pressed() -> void:
+func _on_remove_color_button_pressed() -> void:
 	if _palette.colors.size() > Config.MIN_PALETTE_SIZE:
 		_palette_edited = true
 		

@@ -33,11 +33,13 @@ signal grid_pattern_changed(pattern)
 @onready var _pressure_sensitivity: SpinBox = $MarginContainer/TabContainer/General/VBoxContainer/PressureSensitivity/PressureSensitivity
 @onready var _brush_size: SpinBox = $MarginContainer/TabContainer/General/VBoxContainer/DefaultBrushSize/DefaultBrushSize
 @onready var _canvas_color: ColorPickerButton = $MarginContainer/TabContainer/Appearance/VBoxContainer/CanvasColor/CanvasColor
+@onready var _default_save_dir: LineEdit = $MarginContainer/TabContainer/General/VBoxContainer/DefaultSaveDir/DefaultSaveDir
 @onready var _project_dir: LineEdit = $MarginContainer/TabContainer/General/VBoxContainer/DefaultSaveDir/DefaultSaveDir
 @onready var _theme: OptionButton = $MarginContainer/TabContainer/Appearance/VBoxContainer/Theme/Theme
 @onready var _aa_mode: OptionButton = $MarginContainer/TabContainer/Rendering/VBoxContainer/AntiAliasing/AntiAliasing
-@onready var _foreground_fps: SpinBox = $MarginContainer/TabContainer/Rendering/VBoxContainer/TargetFramerate/TargetFramerate
+@onready var _foreground_fps: SpinBox = $MarginContainer/TabContainer/Rendering/VBoxContainer/MaxFramerate/MaxFramerate
 @onready var _background_fps: SpinBox = $MarginContainer/TabContainer/Rendering/VBoxContainer/BackgroundFramerate/BackgroundFramerate
+@onready var _anti_aliasing: OptionButton = $MarginContainer/TabContainer/Rendering/VBoxContainer/AntiAliasing/AntiAliasing
 @onready var _general_restart_label: Label = $MarginContainer/TabContainer/General/VBoxContainer/RestartLabel
 @onready var _appearence_restart_label: Label = $MarginContainer/TabContainer/Appearance/VBoxContainer/RestartLabel
 @onready var _rendering_restart_label: Label = $MarginContainer/TabContainer/Rendering/VBoxContainer/RestartLabel
@@ -53,7 +55,22 @@ func _ready():
 	_set_values()
 	_apply_language()
 	GlobalSignals.connect("language_changed", Callable(self, "_apply_language"))
-
+	
+	_brush_size.value_changed.connect(_on_default_brush_size_changed)
+	_canvas_color.color_changed.connect(_on_canvas_color_changed)
+	_grid_size.value_changed.connect(_on_grid_size_changed)
+	_grid_pattern.item_selected.connect(_on_grid_pattern_changed)
+	_pressure_sensitivity.value_changed.connect(_on_pressure_sensitivity_changed)
+	_default_save_dir.text_changed.connect(_on_default_savedir_changed)
+	_foreground_fps.value_changed.connect(_on_foreground_fps_changed)
+	_background_fps.value_changed.connect(_on_background_fps_changed)
+	_theme.item_selected.connect(_on_theme_changed)
+	_anti_aliasing.item_selected.connect(_on_anti_aliasing_changed)
+	_brush_rounding_options.item_selected.connect(_on_brush_rounding_changed)
+	_language_options.item_selected.connect(_on_language_changed)
+	_ui_scale_options.item_selected.connect(_on_ui_scale_mode_changed)
+	_ui_scale.value_changed.connect(_on_ui_scale_changed)
+	
 # -------------------------------------------------------------------------------------------------
 func on_close_requested(window: DialogWindow) -> bool:
 	return true
@@ -96,7 +113,7 @@ func _set_values() -> void:
 		
 	_set_languages(locale)
 	_set_rounding()
-	_set_UIScale_range()
+	_set_ui_scale_range()
 	
 	_pressure_sensitivity.value = pressure_sensitivity
 	_brush_size.value = brush_size
@@ -141,7 +158,7 @@ func _set_languages(current_locale: String) -> void:
 	_language_options.selected = _language_options.get_item_index(id)
 
 #--------------------------------------------------------------------------------------------------
-func _set_UIScale_range():
+func _set_ui_scale_range():
 	var screen_scale_max: float = (DisplayServer.screen_get_size().x * DisplayServer.screen_get_size().y) / (ProjectSettings.get_setting("display/window/size/viewport_width") * ProjectSettings.get_setting("display/window/size/viewport_height"))
 	var screen_scale_min: float = DisplayServer.screen_get_size().x / ProjectSettings.get_setting("display/window/size/viewport_width")
 	_ui_scale.min_value = max(screen_scale_min / 2, 0.5)
@@ -156,21 +173,21 @@ func get_min_ui_scale() -> float:
 	return _ui_scale.min_value
 
 # -------------------------------------------------------------------------------------------------
-func _on_DefaultBrushSize_value_changed(value: int) -> void:
+func _on_default_brush_size_changed(value: int) -> void:
 	Settings.set_value(Settings.GENERAL_DEFAULT_BRUSH_SIZE, int(value))
 
 # -------------------------------------------------------------------------------------------------
-func _on_CanvasColor_color_changed(color: Color) -> void:
+func _on_canvas_color_changed(color: Color) -> void:
 	Settings.set_value(Settings.APPEARANCE_CANVAS_COLOR, color)
 	emit_signal("canvas_color_changed", color)
 
 # -------------------------------------------------------------------------------------------------
-func _on_GridSize_value_changed(value: int) -> void:
+func _on_grid_size_changed(value: int) -> void:
 	Settings.set_value(Settings.APPEARANCE_GRID_SIZE, value)
 	emit_signal("grid_size_changed", value)
 	
 # -------------------------------------------------------------------------------------------------
-func _on_GridPattern_item_selected(index: int) -> void:
+func _on_grid_pattern_changed(index: int) -> void:
 	var pattern: int = Types.GridPattern.NONE
 	match index:
 		GRID_PATTERN_DOTS_INDEX: 	pattern = Types.GridPattern.DOTS
@@ -179,30 +196,30 @@ func _on_GridPattern_item_selected(index: int) -> void:
 	emit_signal("grid_pattern_changed", pattern)
 
 # -------------------------------------------------------------------------------------------------
-func _on_PressureSensitivity_value_changed(value: float):
+func _on_pressure_sensitivity_changed(value: float):
 	Settings.set_value(Settings.GENERAL_PRESSURE_SENSITIVITY, value)
 
 # -------------------------------------------------------------------------------------------------
-func _on_DefaultSaveDir_text_changed(text: String) -> void:
+func _on_default_savedir_changed(text: String) -> void:
 	text = text.replace("\\", "/")
 	
 	if DirAccess.dir_exists_absolute(text):
 		Settings.set_value(Settings.GENERAL_DEFAULT_PROJECT_DIR, text)
 
 # -------------------------------------------------------------------------------------------------
-func _on_Target_Fps_Foreground_changed(value: int) -> void:
+func _on_foreground_fps_changed(value: int) -> void:
 	Settings.set_value(Settings.RENDERING_FOREGROUND_FPS, value)
 
 	# Settings FPS so user instantly Sees fps Change else fps only changes after unfocusing
 	Engine.max_fps = value
 
 # -------------------------------------------------------------------------------------------------
-func _on_Target_Fps_Background_changed(value: int) -> void:
+func _on_background_fps_changed(value: int) -> void:
 	# Background Fps need to be a minimum of 5 so you can smoothly reopen the window
 	Settings.set_value(Settings.RENDERING_BACKGROUND_FPS, value)
 
 # -------------------------------------------------------------------------------------------------
-func _on_Theme_item_selected(index: int):
+func _on_theme_changed(index: int):
 	var ui_theme: int
 	match index:
 		THEME_DARK_INDEX: ui_theme = Types.UITheme.DARK
@@ -212,7 +229,7 @@ func _on_Theme_item_selected(index: int):
 	_appearence_restart_label.show()
 
 # -------------------------------------------------------------------------------------------------
-func _on_AntiAliasing_item_selected(index: int):
+func _on_anti_aliasing_changed(index: int):
 	var aa_mode: int
 	match index:
 		AA_NONE_INDEX: aa_mode = Types.AAMode.NONE
@@ -223,7 +240,7 @@ func _on_AntiAliasing_item_selected(index: int):
 	_rendering_restart_label.show()
 
 # -------------------------------------------------------------------------------------------------
-func _on_Brush_rounding_item_selected(index: int):
+func _on_brush_rounding_changed(index: int):
 	match index:
 		BRUSH_ROUNDING_FLAT_INDEX:
 			Settings.set_value(Settings.RENDERING_BRUSH_ROUNDING, Types.BrushRoundingType.FLAT)
@@ -232,7 +249,7 @@ func _on_Brush_rounding_item_selected(index: int):
 	_rendering_restart_label.show()
 
 # -------------------------------------------------------------------------------------------------
-func _on_OptionButton_item_selected(idx: int):
+func _on_language_changed(idx: int):
 	var id := _language_options.get_item_id(idx)
 	var locale: String = Settings.locales[id]
 	
@@ -241,7 +258,7 @@ func _on_OptionButton_item_selected(idx: int):
 	GlobalSignals.emit_signal("language_changed")
 
 # -------------------------------------------------------------------------------------------------
-func _on_UIScaleOptions_item_selected(index: int):
+func _on_ui_scale_mode_changed(index: int):
 	match index:
 		UI_SCALE_AUTO_INDEX:
 			_ui_scale.set_editable(false)
@@ -252,7 +269,7 @@ func _on_UIScaleOptions_item_selected(index: int):
 	emit_signal("ui_scale_changed")
 
 # -------------------------------------------------------------------------------------------------
-func _on_UIScale_value_changed(value: float):
+func _on_ui_scale_changed(value: float):
 	if Input.is_action_just_pressed("ui_accept") || _ui_scale.is_ready():
 		Settings.set_value(Settings.APPEARANCE_UI_SCALE, value)
 		emit_signal("ui_scale_changed")

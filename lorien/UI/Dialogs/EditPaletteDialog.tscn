@@ -11,11 +11,9 @@ expand_margin_right = 1.0
 [sub_resource type="StyleBoxEmpty" id="2"]
 
 [node name="EditPaletteDialog" type="MarginContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(486, 495)
+offset_right = 486.0
+offset_bottom = 495.0
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
@@ -134,3 +132,8 @@ text = "Add Color"
 [node name="RemoveColorButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Remove Color"
+
+[connection signal="color_changed" from="HBoxContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/NameLineEdit" to="." method="_on_name_line_edit_text_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/AddColorButton" to="." method="_on_add_color_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/RemoveColorButton" to="." method="_on_remove_color_button_pressed"]

@@ -15,7 +15,7 @@ func on_close_requested(window: DialogWindow) -> bool:
 	return true
 
 # -------------------------------------------------------------------------------------------------
-func _on_NewPaletteDialog_about_to_show() -> void:
+func on_open(window: DialogWindow) -> void:
 	# Set title
 	if duplicate_current_palette:
 		get_parent().title = tr("NEW_PALETTE_DIALOG_DUPLICATE_TITLE")

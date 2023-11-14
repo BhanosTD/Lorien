@@ -62,34 +62,6 @@ edit_palette_dialog = NodePath("../EditPaletteWindow/EditPaletteDialog")
 delete_palette_dialog = NodePath("../DeletePaletteWindow/DeletePaletteDialog")
 toolbar_path = NodePath("../Topbar/Toolbar")
 
-[node name="UnsavedChangesWindow" type="Window" parent="."]
-title = "UNSAVED_CHANGES_DIALOG_TITLE"
-visible = false
-unresizable = true
-script = ExtResource("14_kdspc")
-
-[node name="UnsavedChangesDialog" parent="UnsavedChangesWindow" instance=ExtResource("7")]
-offset_right = 121.0
-
-[node name="ExitWindow" type="Window" parent="."]
-title = "EXIT_DIALOG_TITLE"
-position = Vector2i(0, 20)
-visible = false
-script = ExtResource("14_kdspc")
-
-[node name="ExitDialog" parent="ExitWindow" instance=ExtResource("7")]
-offset_right = 121.0
-
-[node name="NewPaletteWindow" type="Window" parent="."]
-title = "NEW_PALETTE_DIALOG_CREATE_TITLE"
-position = Vector2i(0, 20)
-visible = false
-script = ExtResource("14_kdspc")
-
-[node name="NewPaletteDialog" parent="NewPaletteWindow" instance=ExtResource("12")]
-offset_right = 320.0
-offset_bottom = 28.0
-
 [node name="FileDialog" type="FileDialog" parent="."]
 initial_position = 4
 size = Vector2i(900, 600)
@@ -113,6 +85,35 @@ dialog_text = "Generic message. "
 visible = false
 file_dialog_path = NodePath("../FileDialog")
 
+[node name="UnsavedChangesWindow" type="Window" parent="."]
+title = "UNSAVED_CHANGES_DIALOG_TITLE"
+visible = false
+unresizable = true
+script = ExtResource("14_kdspc")
+
+[node name="UnsavedChangesDialog" parent="UnsavedChangesWindow" instance=ExtResource("7")]
+offset_right = 121.0
+
+[node name="ExitWindow" type="Window" parent="."]
+title = "EXIT_DIALOG_TITLE"
+position = Vector2i(0, 20)
+visible = false
+script = ExtResource("14_kdspc")
+
+[node name="ExitDialog" parent="ExitWindow" instance=ExtResource("7")]
+offset_right = 121.0
+
+[node name="NewPaletteWindow" type="Window" parent="."]
+title = "NEW_PALETTE_DIALOG_CREATE_TITLE"
+position = Vector2i(0, 20)
+visible = false
+unresizable = true
+script = ExtResource("14_kdspc")
+
+[node name="NewPaletteDialog" parent="NewPaletteWindow" instance=ExtResource("12")]
+offset_right = 320.0
+offset_bottom = 28.0
+
 [node name="DeletePaletteWindow" type="Window" parent="."]
 position = Vector2i(0, 20)
 visible = false
@@ -123,6 +124,7 @@ script = ExtResource("14_kdspc")
 [node name="EditPaletteWindow" type="Window" parent="."]
 position = Vector2i(0, 20)
 visible = false
+unresizable = true
 script = ExtResource("14_kdspc")
 
 [node name="EditPaletteDialog" parent="EditPaletteWindow" instance=ExtResource("14")]

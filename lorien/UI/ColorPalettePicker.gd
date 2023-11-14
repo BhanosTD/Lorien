@@ -129,7 +129,7 @@ func _on_EditColorButton_pressed() -> void:
 	if palette.builtin:
 		AlertDialog.dialog_text = tr("ALERT_EDITING_BUILTIN_PALETTE")
 		AlertDialog.popup_centered()
-	else:#
+	else:
 		hide()
 		var edit_popup: EditPaletteDialog = get_node(edit_palette_dialog)
 		edit_popup.setup(PaletteManager.get_active_palette(), _active_color_index)
@@ -139,7 +139,7 @@ func _on_EditColorButton_pressed() -> void:
 func _on_DuplicatePaletteButton_pressed() -> void:
 	var dialog: NewPaletteDialog = get_node(add_new_palette_dialog_path)
 	dialog.duplicate_current_palette = true
-	dialog.popup_centered()
+	dialog.open()
 
 # -------------------------------------------------------------------------------------------------
 func _on_DeletePaletteButton_pressed() -> void:
