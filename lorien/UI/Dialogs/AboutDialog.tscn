@@ -9,7 +9,7 @@
 [node name="AboutDialog" type="Window"]
 title = "ABOUT_DIALOG_TITLE"
 initial_position = 4
-size = Vector2i(520, 245)
+size = Vector2i(500, 220)
 exclusive = true
 unresizable = true
 theme = ExtResource("1")

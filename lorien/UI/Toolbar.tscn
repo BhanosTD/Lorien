@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bro2sug12l4bp"]
+[gd_scene load_steps=21 format=3 uid="uid://bro2sug12l4bp"]
 
 [ext_resource type="Texture2D" uid="uid://gcvc5f6seh8a" path="res://Assets/Icons/save_file.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://dpaofpbn0fdsa" path="res://Assets/Icons/open_file.png" id="2"]
@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://c0ptv3nhppdfk" path="res://Assets/Icons/rectangle_tool.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://daf6otq3hn3ox" path="res://Assets/Icons/line_tool.png" id="11"]
 [ext_resource type="Script" path="res://UI/Components/FlatTextureButton.gd" id="13"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/font_small.tres" id="14"]
 [ext_resource type="Theme" uid="uid://2j7q70cs0j70" path="res://UI/Themes/theme_dark.tres" id="15"]
 [ext_resource type="Texture2D" uid="uid://b0357cusqaj3j" path="res://Assets/Icons/selection_tool.png" id="16"]
 [ext_resource type="Texture2D" uid="uid://p4kk1owxfgw0" path="res://Assets/Icons/fullscreen.png" id="18"]
@@ -211,7 +210,6 @@ theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("14")
 theme_override_styles/normal = SubResource("4")
 theme_override_styles/hover = SubResource("4")
 theme_override_styles/pressed = SubResource("4")
@@ -232,7 +230,6 @@ value = 5.0
 
 [node name="BrushSizeLabel" type="Label" parent="Console/Left"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("14")
 text = "12"
 
 [node name="Right" type="HBoxContainer" parent="Console"]
