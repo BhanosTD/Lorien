@@ -42,5 +42,5 @@ func _on_NewPaletteDialog_about_to_show() -> void:
 		title = tr("NEW_PALETTE_DIALOG_CREATE_TITLE")
 	
 	# Grab focus
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	_line_edit.grab_focus()

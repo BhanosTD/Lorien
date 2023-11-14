@@ -19,6 +19,10 @@ var _disable_color_picker_callback := false
 var _palette_edited := false
 
 # -------------------------------------------------------------------------------------------------
+func _ready() -> void:
+	close_requested.connect(hide)
+
+# -------------------------------------------------------------------------------------------------
 func setup(palette: Palette, color_index: int) -> void:
 	# Reset internal stuff
 	_palette = palette
